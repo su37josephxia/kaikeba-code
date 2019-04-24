@@ -14,15 +14,16 @@ class Application {
     listen() {
         const server = http.createServer((req, res) => {
             const { pathname } = url.parse(req.url, true)
-            // for (const item of router) {
-            //     const { path, method, handler } = item
-            //     if (pathname == path && req.method.toLowerCase() == method) {
-            //         return handler(req, res)
-            //     }
-            // }
-            return router
-                .find(v => pathname === v.path && req.method.toLowerCase() == v.method)
-                .handler(req,res)
+            for (const item of router) {
+                const { path, method, handler } = item
+                if (pathname == path && req.method.toLowerCase() == method) {
+                    // return handler(req, res)
+                    handler(req, res)
+                }
+            }
+            // return router
+            //     .find(v => pathname === v.path && req.method.toLowerCase() == v.method)
+            //     .handler(req,res)
         })
         server.listen(...arguments)
     }
