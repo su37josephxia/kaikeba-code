@@ -37,7 +37,7 @@ conn.query(CREATE_SQL, err => {
     }
     console.log(result);
     conn.query(SELECT_SQL, (err, results) => {
-        console.log(results);
+        console.log(JSON.stringify(results));
         conn.end(); // 若query语句有嵌套，则end需在此执行
     })
   });

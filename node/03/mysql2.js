@@ -29,7 +29,7 @@
     ret = await connection.execute(`
             SELECT * FROM test
     `)
-    console.log(ret[0])
+    console.log(JSON.stringify(ret[0]))
     // console.log(ret[1])
 
     connection.end()

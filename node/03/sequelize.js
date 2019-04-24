@@ -98,7 +98,15 @@
     // })
     // console.log('ret:', JSON.stringify(ret))
 
+    const Op = Sequelize.Op;
+    Fruit.findAll({
+        // where: { price: { [Op.lt]:4 }, stock: { [Op.gte]: 100 } }
+        where: { id: { [Op.lt]: 4, [Op.gt]: 2 } }
+    }).then(fruits => {
+        console.log(JSON.stringify(fruits))
+        console.log(fruits.length);
+    });
 
-    Fruit.destroy({ where: { id: 1 } }).then(r => console.log(r));
+    // Fruit.destroy({ where: { id: 1 } }).then(r => console.log(r));
 })()
 
