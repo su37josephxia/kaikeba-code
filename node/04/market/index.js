@@ -9,11 +9,16 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/list", async (req, res) => {
-  console.log('page',req.query.page)
   // 分页查询
   const page = +req.query.page;
   try {
+
+    
     const col = mongo.col("fruits");
+
+
+
+
     const total = await col.find().count();
     const fruits = await col
       .find()
@@ -21,6 +26,7 @@ app.get("/api/list", async (req, res) => {
       .limit(5)
       .toArray();
     res.json({ ok: 1, data: { fruits, pagination: { total, page } } });
+    
   } catch (error) {
     console.log(error);
   }

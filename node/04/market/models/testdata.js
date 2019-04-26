@@ -1,8 +1,8 @@
 const mongodb = require("./db");
 
-mongodb.once("connect", async () => {    
+mongodb.once("connect", async () => {
   const col = mongodb.col("fruits");
-    
+
   try {
     // 删除已存在
     await col.deleteMany();
@@ -23,6 +23,9 @@ mongodb.once("connect", async () => {
       { name: "鲜虾", price: 20, category: "生鲜" }
     ]);
     console.log("插入测试数据成功");
+    const ret = await col.find({price:{$gt:10}}).toArray()
+  console.log('ret',ret)
+
   } catch (error) {
     console.log("插入测试数据失败");
     console.log(error);
