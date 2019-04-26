@@ -12,6 +12,8 @@
   "dependencies": {
     "cpu-stat": "^2.0.1",
     "express": "^4.16.4",
+    "mongodb": "^3.2.3",
+    "mongoose": "^5.5.3",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.7.4",
