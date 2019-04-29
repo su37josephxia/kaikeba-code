@@ -1,11 +1,7 @@
 const Router = require("koa-router");
-const static = require('koa-static')
 const router = new Router();
 router.get("/", async ctx => {
-  // ctx.body = "index";
-  const list = [...ctx.state.vipCourses];
-  list.sort((a, b) => (a.sort - b.sort));
-
+  //若cookie中存在记录则不再播放，index.js
   let showVideo;
   if (ctx.cookies.get('isPlayed')) {
     showVideo = false;
@@ -14,10 +10,10 @@ router.get("/", async ctx => {
     ctx.cookies.set('isPlayed', true, { maxAge: 7 * 24 * 3600000 });
   }
 
+  // ctx.body = "index";
+  const list = [...ctx.state.vipCourses];
+  list.sort((a, b) => (a.sort - b.sort));
+  
   await ctx.render('index', { list, showVideo })
-});
-
-router.get("/abc", ctx => {
-  ctx.body = "abc";
 });
 module.exports = router;

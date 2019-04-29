@@ -13,7 +13,7 @@
         <p>系统化名师授课，前沿性方法教学，班级化学员管理，实战性成果校验</p>
     </div>
     <div class="vip-course-list">
-        {{#each vipCourses}}
+        {{#each list}}
         <div class="vip-course-item" style="background-image: url({{poster}});">
             <div class="right-img"></div>
             <div class="left-text">
@@ -29,5 +29,15 @@
             </div>
         </div>
         {{/each}}
+
+        
     </div>
 </div>
+
+{{#contentFor 'jquery'}}
+<script>
+    $('#home-banner-video').on('ended', function(){
+        $(this).remove();
+    })
+</script>
+{{/contentFor}}

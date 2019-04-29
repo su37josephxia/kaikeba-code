@@ -8,3 +8,4 @@ hbs.registerHelper("date", (date, pattern) => {
     return "";
   }
 });
+
