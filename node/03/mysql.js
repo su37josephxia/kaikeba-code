@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-// mysql.js
->>>>>>> 05
 const mysql = require("mysql");
 // 连接配置
 const cfg = {
@@ -41,11 +37,7 @@ conn.query(CREATE_SQL, err => {
     }
     console.log(result);
     conn.query(SELECT_SQL, (err, results) => {
-<<<<<<< HEAD
         console.log(JSON.stringify(results));
-=======
-        console.log(results);
->>>>>>> 05
         conn.end(); // 若query语句有嵌套，则end需在此执行
     })
   });

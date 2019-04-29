@@ -12,20 +12,17 @@
   "dependencies": {
     "cpu-stat": "^2.0.1",
     "express": "^4.16.4",
-<<<<<<< HEAD
     "mongodb": "^3.2.3",
     "mongoose": "^5.5.3",
     "mysql": "^2.17.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.7.4",
-=======
     "koa": "^2.7.0",
     "koa-hbs": "^1.0.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "moment": "^2.24.0",
     "mongoose": "^5.5.2",
->>>>>>> 05
     "socket.io": "^2.2.0"
   }
 }
