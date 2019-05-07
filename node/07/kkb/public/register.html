@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+    />
+    <style></style>
+    <title>文件上传</title>
+  </head>
+  <body>
+    <div id="app">
+      <el-form :model="regForm" ref="regForm">
+        <el-form-item>
+          <el-input
+            type="tel"
+            v-model="regForm.phone"
+            autocomplete="off"
+            placeholder="手机号"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            type="text"
+            v-model="regForm.captcha"
+            autocomplete="off"
+            placeholder="图形验证码"
+          ></el-input>
+          <img :src="captchaSrc" @click="getCaptcha" />
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            type="text"
+            v-model="regForm.code"
+            autocomplete="off"
+            placeholder="短信验证码"
+          ></el-input>
+          <el-button type="primary" @click="getSmsCode()"
+            >获取短信验证码</el-button
+          >
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            type="password"
+            v-model="regForm.password"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="submitForm()">提交</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data() {
+          return {
+            regForm: {
+              phone: "",
+              captcha: "",
+              code: "",
+              password: ""
+            },
+            captchaSrc: "/api/captcha"
+          };
+        },
+        methods: {
+          getCaptcha() {
+            this.captchaSrc = "/api/captcha?r=" + Date.now();
+          },
+          getSmsCode() {
+            axios
+              .get("/api/sms?to=" + this.regForm.phone)
+              .then(res => res.data)
+              .then(({ code }) => (this.regForm.code = code));
+          },
+          submitForm() {
+            axios
+              .post("/students", this.regForm)
+              .then(() => alert("注册成功"))
+              .catch(error => alert("注册失败:" + error.response.data.message));
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
+
