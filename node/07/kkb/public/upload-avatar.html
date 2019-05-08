@@ -80,7 +80,7 @@
   <img src="/api/captcha" id="captcha" />
   <script>
     document.getElementById('captcha').onclick = function () {
-      captcha.src = "/users/captcha?r=" + Date.now();
+      captcha.src = "/api/captcha?r=" + Date.now();
     };
   </script>
 </body>

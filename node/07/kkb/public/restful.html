@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+</head>
+
+<body>
+    <div id="app">
+        
+        <div style='display: flex;flex-direction: column'>
+                <el-input v-model="form.name" autocomplete="off" placeholder="姓名"></el-input>
+            <el-button v-on:click="get">GET</el-button>
+            <el-button v-on:click="post">POST</el-button>
+            <el-button v-on:click="doDelete">DELETE</el-button>
+            <el-button v-on:click="put">PUT</el-button>
+            <el-button @click="logs=[]">Clear Log</el-button>
+        </div>
+        <!-- 日志 -->
+        <ul>
+            <li v-for="(log,idx) in logs" :key="idx">
+                {{ log }}
+            </li>
+        </ul>
+    </div>
+    <script>
+        axios.defaults.baseURL = 'http://localhost:3000'
+        axios.interceptors.response.use(
+            response => {
+                app.logs.push(JSON.stringify(response.data));
+                return response;
+            },
+            err => {
+                app.logs.push(JSON.stringify(response.data));
+                return Promise.reject(err);
+            }
+        )
+        var app = new Vue({
+            el: "#app",
+            data: {
+                form:{
+                    name:'name',
+                    id:3
+                },
+                logs: []
+            },
+            methods: {
+                async post() {
+                    const res = await axios.post("/users", this.form);
+                },
+                async get() {
+                    const res = await axios.get("/users");
+                },
+                async put() {
+                    const res = await axios.put("/users", this.form);
+                },
+                async doDelete() {
+                    const res = await axios.delete("/users/3");
+                },
+            }
+        });
+    </script>
+</body>
+
+</html>

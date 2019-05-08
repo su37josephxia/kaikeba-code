@@ -5,7 +5,7 @@ const bouncer = require("koa-bouncer");
 router.post("/", async ctx => {
   try {
     // 输入验证
-    const { code, to, expires } = ctx.session.smsCode;
+    const { smsCode: { code, to, expires }, captcha } = ctx.session;
     ctx
       .validateBody("phone")
       .required("必须提供手机号")
@@ -13,7 +13,6 @@ router.post("/", async ctx => {
       .trim()
       .match(/1[3-9]\d{9}/, "手机号不合法")
       .eq(to, "请填写接收短信的手机号");
-
     ctx
       .validateBody("code")
       .required("必须提供短信验证码")
@@ -28,8 +27,12 @@ router.post("/", async ctx => {
       .isString()
       .trim()
       .match(/[a-zA-Z0-9]{6,16}/, "密码不合法");
-    // 入库, 略
-    ctx.body = { ok: 1 };
+    ctx
+      .validateBody('captcha')
+      .eq(captcha,'图形验证码有误')
+
+      // 入库, 略
+      ctx.body = { ok: 1 };
   } catch (error) {
     if (error instanceof bouncer.ValidationError) {
       console.log(error);

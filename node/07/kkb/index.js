@@ -5,6 +5,10 @@ const getVip = require('./middleware/get-vip')
 
 const session = require('koa-session')
 
+// 跨域
+var cors = require('koa2-cors');
+app.use(cors());
+
 // 签名key keys作用 用来对cookie进行签名
 app.keys = ['some secret'];
 
@@ -15,6 +19,10 @@ const SESS_CONFIG = {
     // httpOnly: true, // 仅服务器修改
     // signed: true, // 签名cookie
 };
+
+// 为koa上下文扩展一些校验方法
+const bouncer = require("koa-bouncer");
+app.use(bouncer.middleware());
 
 // 注册
 app.use(session(SESS_CONFIG, app));
@@ -88,6 +96,7 @@ const users = require('./routes/users');
 const api = require('./routes/api');
 app.use(index.routes());
 app.use(users.routes());
+app.use(require('./routes/students').routes())
 app.use(api.routes());
 
 

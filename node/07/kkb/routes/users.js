@@ -73,10 +73,10 @@ router.get('/getUser-token', jwtAuth({ secret }), async ctx => {
   }
 })
 
-
+// Restful接口
 const users = [{ id: 1, name: "tom" }, { id: 2, name: "jerry" }];
 router.get("/", ctx => {
-  console.log("GET /users");
+  console.log("GET /users", ctx.body);
   const { name } = ctx.query; // ?name=xx
   let data = users;
   if (name) {
@@ -90,17 +90,54 @@ router.get("/:id", ctx => {
   const data = users.find(u => u.id == id);
   ctx.body = { ok: 1, data };
 });
-router.post("/", ctx => {
-  console.log("POST /users", ctx.body);
-  const { body: user } = ctx.request; // 请求body
-  console.log('body:', user)
+
+const bouncer = require("koa-bouncer");
+
+const val = async (ctx, next) => {
+  try {
+    // 校验开始
+    ctx
+      .validateBody("name")
+      .required("要求提供用户名")
+      .isString()
+      .trim()
+      .isLength(6, 16, "用户名长度为6~16位")
+      // 是否邮箱格式
+      // .isEmail('非法的邮箱格式')
+      // .eq('laowang1', "验证码填写有误")
+      // 同步逻辑判断
+      // .check('laowang' !== ctx.vals.name, "用户名已存在")
+      // 异步逻辑判断
+      //  const hasUser = () => new Promise(resolve => resolve(true))
+      // .check(await hasUser(),"用户名已存在")
+
+    // 如果走到这里校验通过
+    // 校验器会用净化后的值填充 `ctx.vals` 对象
+    console.log('ctx.vals', ctx.vals);
+    next()
+  } catch (error) {
+    if (error instanceof bouncer.ValidationError) {
+      ctx.body = '校验失败：' + error.message;
+      return;
+    }
+    throw error
+    
+  }
+}
+
+
+router.post("/", val, ctx => {
+  // 校验器会用净化后的值填充 `ctx.vals` 对象
+  console.log("POST /users");
+  // const { body: user } = ctx.request; // 请求body
+  const user = ctx.vals;
   user.id = users.length + 1;
   users.push(user);
   ctx.body = { ok: 1 };
 });
 router.put("/", ctx => {
   console.log("PUT /users");
-  const { body: user } = ctx.b; // 请求body
+  const { body: user } = ctx.request; // 请求body
   const idx = users.findIndex(u => u.id == user.id);
   // console.log(idx,ctx.body)
   if (idx > -1) {
@@ -125,60 +162,6 @@ router.post("/upload", upload.single("file"), ctx => {
   console.log(ctx.req.file); // 注意数据存储在原始请求中
   console.log(ctx.req.body); // 注意数据存储在原始请求中
   ctx.body = "上传成功";
-});
-
-
-router.post("/", ctx => {
-  try {
-    // 校验开始
-    ctx
-      .validateBody("uname")
-      .required("要求提供用户名")
-      .isString()
-      .trim()
-      .isLength(6, 16, "用户名长度为6~16位");
-
-    // ctx.validateBody('email')
-    //   .optional()
-    //   .isString()
-    //   .trim()
-    //   .isEmail('非法的邮箱格式')
-
-    ctx
-      .validateBody("pwd1")
-      .required("密码为必填项")
-      .isString()
-      .isLength(6, 16, "密码必须为6~16位字符");
-
-    ctx
-      .validateBody("pwd2")
-      .required("密码确认为必填项")
-      .isString()
-      .eq(ctx.vals.pwd1, "两次密码不一致");
-
-    // 校验数据库是否存在相同值
-    // ctx.validateBody('uname')
-    //   .check(await db.findUserByUname(ctx.vals.uname), 'Username taken')
-    // ctx.validateBody("uname").check("jerry", "用户名已存在");
-
-    // 如果走到这里校验通过
-
-    // 校验器会用净化后的值填充 `ctx.vals` 对象
-    console.log(ctx.vals);
-
-    console.log("POST /users");
-    // const { body: user } = ctx.request; // 请求body
-    const user = ctx.vals;
-    user.id = users.length + 1;
-    users.push(user);
-    ctx.body = { ok: 1 };
-  } catch (error) {
-    if (error instanceof bouncer.ValidationError) {
-      ctx.body = '校验失败：' + error.message;
-      return;
-    }
-    throw error
-  }
 });
 
 

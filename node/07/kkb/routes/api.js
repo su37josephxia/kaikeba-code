@@ -2,13 +2,17 @@ const Router = require("koa-router");
 const router = new Router({ prefix: '/api' });
 const captcha = require("trek-captcha");
 router.get("/captcha", async ctx => {
+    console.log('ctx.session.captcha',ctx.session.captcha)
     const { token, buffer } = await captcha({ size: 4 });
+    console.log('token:',token)
+    ctx.session.captcha = token
     ctx.body = buffer;
 });
 
 const moment = require('moment')
 const md5 = require('md5')
 const axios = require('axios')
+const qs = require('querystring')
 router.get("/sms", async function (ctx) {
     // 生成6位随机数字验证码
     let code = (Math.random() * 999999).toFixed();
