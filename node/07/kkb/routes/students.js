@@ -1,3 +1,4 @@
+// students.js
 const Router = require("koa-router");
 const router = new Router({ prefix: "/students" });
 const bouncer = require("koa-bouncer");
@@ -45,4 +46,3 @@ router.post("/", async ctx => {
   }
 });
 module.exports = router;
-

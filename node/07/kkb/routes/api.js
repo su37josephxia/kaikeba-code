@@ -1,13 +1,13 @@
-const Router = require("koa-router");
-const router = new Router({ prefix: '/api' });
-const captcha = require("trek-captcha");
-router.get("/captcha", async ctx => {
-    console.log('ctx.session.captcha',ctx.session.captcha)
-    const { token, buffer } = await captcha({ size: 4 });
-    console.log('token:',token)
+const Router = require('koa-router')
+const router = new Router({ prefix: '/api' })
+const captcha = require('trek-captcha')
+
+router.get('/captcha', async ctx => {
+    console.log('captcha', ctx.session.captcha)
+    const { token, buffer } = await captcha({ size: 4 })
     ctx.session.captcha = token
-    ctx.body = buffer;
-});
+    ctx.body = buffer
+})
 
 const moment = require('moment')
 const md5 = require('md5')
@@ -50,4 +50,4 @@ router.get("/sms", async function (ctx) {
     }
 });
 
-module.exports = router;
+module.exports = router
