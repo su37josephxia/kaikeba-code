@@ -6,7 +6,8 @@ const delay = (data, tick) => new Promise(resolve => {
 
 module.exports = app => ({
     getName() {
-        return delay('jerry', 1000)
+        // return delay('jerry', 1000)
+        return app.$model.user.findAll()
     },
     getAge() {
         return 20
