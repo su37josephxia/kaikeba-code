@@ -1,10 +1,9 @@
 module.exports = async function (ctx, next) {
     const { res, req } = ctx;
-    const blackList = ['127.0.0.1'];
+    const blackList = ['127.0.0.2'];
     const ip = getClientIP(req);
-    console.log('ip:'+ip)
+
     if (blackList.includes(ip)) {//出现在黑名单中将被拒绝
-        console.log('black...')
         ctx.body = "not allowed";
     } else {
         await next();

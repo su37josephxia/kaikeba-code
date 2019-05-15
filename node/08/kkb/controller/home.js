@@ -1,7 +1,7 @@
 module.exports = app => ({
     index: async ctx => {
-        // ctx.body = await app.$service.user.getName()
-        ctx.body = await app.$model.user.findAll()
+        ctx.body = await app.$service.user.getName()
+        // ctx.body = await app.$model.user.findAll()
         
     },
 
