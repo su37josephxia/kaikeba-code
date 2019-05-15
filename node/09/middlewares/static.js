@@ -1,16 +1,17 @@
-// static.js
 const fs = require("fs");
 const path = require("path");
 
 module.exports = (dirPath = "./public") => {
   return async (ctx, next) => {
     if (ctx.url.indexOf("/public") === 0) {
+        console.log('ctx.url',ctx.url)
       // public开头 读取文件
       const url = path.resolve(__dirname, dirPath);
       const fileBaseName = path.basename(url);
       const filepath = url + ctx.url.replace("/public", "");
       console.log(filepath);
-      // console.log(ctx.url,url, filepath, fileBaseName)
+    //   console.log(ctx.url,url, filepath, fileBaseName)
+
       try {
         stats = fs.statSync(filepath);
         if (stats.isDirectory()) {
