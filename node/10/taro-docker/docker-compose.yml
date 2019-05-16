@@ -4,6 +4,7 @@ services:
       container_name: app-pm2
       #构建容器
       build: ./backend
+      # 需要链接本地代码时
       # volumes:
       #   - ./backend:/usr/src/app
       ports:
@@ -22,7 +23,8 @@ services:
     restart: always
     image: nginx
     ports:
-      - 80:80
+      - 8091:80
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d
-      - ./frontend/:/var/www/html/
+      - ./frontend/dist/:/var/www/html/
+      - ./static/:/static/

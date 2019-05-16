@@ -10,6 +10,7 @@
   "license": "ISC",
   "description": "myappp",
   "dependencies": {
+    "express": "^4.16.4",
     "koa": "^2.7.0",
     "mongoose": "^5.5.5"
   }
