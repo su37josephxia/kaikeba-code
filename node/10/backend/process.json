@@ -1,0 +1,11 @@
+{
+    "apps": [{
+        "name": "app-name",
+        "script": "app.js",
+        "instances": 2,
+        "watch":true,
+        "env": {
+            "production": true
+        }
+    }]
+}
