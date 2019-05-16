@@ -1,13 +1,5 @@
 version: '3.1'
 services:
-  app-pm2:
-      container_name: app-pm2
-      #构建容器
-      build: ./backend
-      # volumes:
-      #   - ./backend:/usr/src/app
-      ports:
-        - "3000:3000"
   mongo:
     image: mongo
     restart: always
@@ -18,11 +10,3 @@ services:
     restart: always 
     ports:
       - 8081:8081
-  nginx:
-    restart: always
-    image: nginx
-    ports:
-      - 80:80
-    volumes:
-      - ./nginx/conf.d/:/etc/nginx/conf.d
-      - ./frontend/:/var/www/html/
