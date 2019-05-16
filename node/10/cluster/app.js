@@ -5,6 +5,7 @@ const app = new Koa();
 
 // 对于任何请求，app将调用该异步函数处理请求：
 app.use(async (ctx, next) => {
+    console.log('ctx....')
     // 随机产生错误
     Math.random() > 0.9 ?  aaa() : '2'
 
