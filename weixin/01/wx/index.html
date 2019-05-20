@@ -10,16 +10,15 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/cube-ui/lib/cube.min.css">
     <style>
-        /* .cube-btn {
+        .cube-btn {
             margin: 10px 0;
-        } */
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <cube-input v-model="value"></cube-input>
-        <cube-button @click='getToken'>getToken</cube-button>
+        <cube-button @click='getTokens'>getTokens</cube-button>
         <cube-button @click='getFollowers'>getFollowers</cube-button>
 
     </div>
@@ -31,13 +30,13 @@
             },
 
             methods: {
-                async getToken(){
-                    const ret = await axios.get('/getToken')
-                    console.log('ret:',ret)
+                async getTokens(){
+                    const res = await axios.get('/getTokens')
+                    console.log('res:',res)
                 },
                 async getFollowers(){
-                    const ret = await axios.get('/getFollowers')
-                    console.log('getFollowers',ret)
+                    const res = await axios.get('/getFollowers')
+                    console.log('res',res)
                 }
             },
             mounted: function () {

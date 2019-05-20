@@ -23,12 +23,14 @@ router.get('/wechat', ctx => {
     const {
         signature, // 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
         timestamp, // 时间戳
-        nonce, // 随机数
+        nonce, // 随机数 
         echostr // 随机字符串
     } = query
     console.log('wechat', query)
 
     // 将 token timestamp nonce 三个参数进行字典序排序并用sha1加密
+
+
     let str = [conf.token, timestamp, nonce].sort().join('');
     console.log('str', str)
     let strSha1 = crypto.createHash('sha1').update(str).digest('hex');
