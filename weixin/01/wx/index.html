@@ -18,6 +18,7 @@
 
 <body>
     <div id="app">
+        <cube-input v-model="value"></cube-input>
         <cube-button @click='getToken'>getToken</cube-button>
         <cube-button @click='getFollowers'>getFollowers</cube-button>
 
@@ -31,17 +32,13 @@
 
             methods: {
                 async getToken(){
-                    const res = await axios.get('getToken')
-                    console.log('getToken:',res)
+                    const ret = await axios.get('/getToken')
+                    console.log('ret:',ret)
                 },
-
-                async getFollowers() {
-                    const res = await axios.get('/getFollowers')
-                    console.log('getFollowers:',res)
+                async getFollowers(){
+                    const ret = await axios.get('/getFollowers')
+                    console.log('getFollowers',ret)
                 }
-
-
-
             },
             mounted: function () {
 
