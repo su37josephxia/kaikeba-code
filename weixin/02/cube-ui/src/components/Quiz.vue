@@ -62,7 +62,7 @@
   </div>
 </template>
 <script>
-import data from "./data";
+// import data from "./data";
 import animate from "animate.css";
 import axios from "axios";
 axios.interceptors.request.use(
@@ -141,7 +141,7 @@ export default {
       return res.data
     },
     async getJSConfig() {
-      console.log("wx:", wx);
+      // console.log("wx:", wx);
       let res = await axios.get("/getJSConfig", {
         params: {
           url: window.location.href
@@ -155,7 +155,7 @@ export default {
       res.data.jsApiList = apiList;
       res.data.debug = false;
       // res.data.url = window.location.href
-      wx.config(res.data);
+      window.wx.config(res.data);
     },
     setShare(){
       const url = `${window.location.origin}?score=${this.score}&nickname=${this.user.nickname}`
@@ -164,8 +164,8 @@ export default {
         link:url,
         imgUrl:this.user.headimgurl,
       }
-      wx.onMenuShareTimeline(shareConfig)
-      wx.onMenuShareAppMessage(shareConfig)
+      window.wx.onMenuShareTimeline(shareConfig)
+      window.wx.onMenuShareAppMessage(shareConfig)
     }
   },
   async mounted() {
@@ -180,8 +180,6 @@ export default {
         score: getQueryString('score'),
         headimgurl:getQueryString('headimgurl'),
         nickname:getQueryString('nickname')
-        
-
       }
       return 
     }
@@ -196,8 +194,6 @@ export default {
     }else{
       this.auth()
     }
-
-
   }
 };
 function getQueryString(name) {
