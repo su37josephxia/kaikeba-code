@@ -20,7 +20,7 @@ const CONFIG = {
     /** (boolean) automatically commit headers (default true) */
     overwrite: false,
     /** (boolean) can overwrite or not (default true) */
-    httpOnly: true,
+    httpOnly: false,
     /** (boolean) httpOnly or not (default true) */
     signed: false,
     /** (boolean) signed or not (default true) */
@@ -29,7 +29,6 @@ const CONFIG = {
     renew: false,
     /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
-
 
 app.use(session(CONFIG, app));
 app.use(views(__dirname + '/views', {
@@ -46,7 +45,7 @@ app.use(async (ctx, next) => {
     // ctx.set('X-FRAME-OPTIONS', 'DENY')
     // const referer = ctx.request.header.referer
     // console.log('Referer:', referer)
-    ctx.set('X-FRAME-OPTIONS', 'DENY')
+
     // const referer = ctx.request.header.referer
     // console.log('Referer:', referer)
 
@@ -55,17 +54,16 @@ app.use(async (ctx, next) => {
 // app.use(helmet())
 
 
-
 router.get('/', async (ctx) => {
-    res = await query('select * from test.text')
+    // res = await query('select * from test.text')
     // ctx.set('X-FRAME-OPTIONS', 'DENY')
     await ctx.render('index', {
         from: ctx.query.from,
         username: ctx.session.username,
-        text: res[0].text,
+        // text: res[0].text,
+        text:'abc'
     });
 });
-
 
 router.get('/login', async (ctx) => {
     await ctx.render('login');
@@ -77,41 +75,41 @@ router.post('/login', async (ctx) => {
     const { username, password } = ctx.request.body
 
     // 可注入写法
-    const sql = `
+    let sql = `
     SELECT *
     FROM test.user
-    WHERE username = '${ctx.request.body.username}' 
-    AND password = '${ctx.request.body.password}'
+    WHERE username = ? 
+    -- AND password = ?
     `
     console.log('sql', sql)
-    res = await query(sql)
+    res = await query(sql, [ctx.request.body.username, ctx.request.body.password])
     console.log('db', res)
-    if (res.length !== 0) {
-        ctx.redirect('/?from=china')
-        ctx.session.username = ctx.request.body.username
-    }
-
-    // if (res.length !== 0 && res[0].salt === null) {
-    //     console.log('no salt ..')
-    //     if (password === res[0].password) {
-    //         sql = `
-    //             update test.user
-    //             set salt = ?,
-    //             password = ?
-    //             where username = ?
-    //         `
-    //         const salt = Math.random() * 99999 + new Date().getTime()
-    //         res = await query(sql, [salt, encryptPassword(salt, password), username])
-    //         ctx.session.username = ctx.request.body.username
-    //         ctx.redirect('/?from=china')
-    //     }
-    // } else {
-    //     console.log('has salt')
-    //     if (encryptPassword(res[0].salt, password) === res[0].password) {
-    //         ctx.session.username = ctx.request.body.username
-    //         ctx.redirect('/?from=china')
-    //     }
+    // if (res.length !== 0) {
+    //     ctx.redirect('/?from=china')
+    //     ctx.session.username = ctx.request.body.username
     // }
+
+    if (res.length !== 0 && res[0].salt === null) {
+        console.log('no salt ..')
+        if (password === res[0].password) {
+            sql = `
+                update test.user
+                set salt = ?,
+                password = ?
+                where username = ?
+            `
+            const salt = Math.random() * 99999 + new Date().getTime()
+            res = await query(sql, [salt, encryptPassword(salt, password), username])
+            ctx.session.username = ctx.request.body.username
+            ctx.redirect('/?from=china')
+        }
+    } else {
+        console.log('has salt')
+        if (encryptPassword(res[0].salt, password) === res[0].password) {
+            ctx.session.username = ctx.request.body.username
+            ctx.redirect('/?from=china')
+        }
+    }
 });
 
 router.post('/updateText', async (ctx) => {
