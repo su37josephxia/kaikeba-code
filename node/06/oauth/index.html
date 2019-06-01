@@ -2,10 +2,29 @@
 <head>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    var w
+    function auth(){
+      w = window.open('/github/login','_blank')
+      let intervalId = setInterval(() => {
+          console.log("等待认证中..");
+          if (window.localStorage.getItem("authSuccess")) {
+            clearInterval(intervalId);
+            window.localStorage.removeItem("authSuccess");
+            console.log('loginSuccess....')
+          }
+        }, 500);
+    }
+
+    
+  
+  </script>
 </head>
 <body>
   <div id="app">
-      <a href='/github/login'>login with github</a>
+      <a href='/github/login' >login with github</a>
+
+      <button onClick='auth()'>Login with Github</button>
   </div>
 </body>
 </html>
