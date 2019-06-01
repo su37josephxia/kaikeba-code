@@ -1,30 +1,74 @@
 <html>
+
 <head>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script>
-    var w
-    function auth(){
-      w = window.open('/github/login','_blank')
-      let intervalId = setInterval(() => {
-          console.log("等待认证中..");
-          if (window.localStorage.getItem("authSuccess")) {
-            clearInterval(intervalId);
-            window.localStorage.removeItem("authSuccess");
-            console.log('loginSuccess....')
-          }
-        }, 500);
-    }
 
-    
-  
-  </script>
 </head>
+
 <body>
   <div id="app">
-      <a href='/github/login' >login with github</a>
-
-      <button onClick='auth()'>Login with Github</button>
+    <button @click='oauth()'>Login with Github</button>
+    <div v-if="userInfo">
+      Hello {{userInfo.name}}
+      <img :src="userInfo.avatar_url" />
+    </div>
   </div>
+  <script>
+
+  </script>
+  <script>
+    axios.interceptors.request.use(
+      config => {
+        const token = window.localStorage.getItem("token");
+        if (token) {
+          // 判断是否存在token，如果存在的话，则每个http header都加上token
+          // Bearer是JWT的认证头部信息
+          config.headers.common["Authorization"] = "Bearer " + token;
+        }
+        return config;
+      },
+      err => {
+        return Promise.reject(err);
+      }
+    );
+
+    axios.interceptors.response.use(
+      response => {
+        app.logs.push(JSON.stringify(response.data));
+        return response;
+      },
+      err => {
+        app.logs.push(JSON.stringify(response.data));
+        return Promise.reject(err);
+      }
+    );
+    var app = new Vue({
+      el: "#app",
+      data: {
+        logs: [],
+        userInfo: null
+      },
+      methods: {
+        async oauth() {
+          window.open('/github/login', '_blank')
+          const intervalId = setInterval(() => {
+            console.log("等待认证中..");
+            if (window.localStorage.getItem("authSuccess")) {
+              clearInterval(intervalId);
+              window.localStorage.removeItem("authSuccess");
+              this.getUser()
+            }
+          }, 500);
+        },
+        async getUser() {
+          const res = await axios.get("/github/userinfo");
+          console.log('res:',res.data)
+          this.userInfo = res.data
+        }
+      }
+    });
+  </script>
 </body>
+
 </html>
