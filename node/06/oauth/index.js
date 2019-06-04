@@ -16,7 +16,7 @@ const config = {
 
 }
 
-router.get('/github/login', async (ctx) => {
+router.get('/auth/github/login', async (ctx) => {
     var dataStr = (new Date()).valueOf();
     //重定向到认证接口,并配置参数
     var path = `https://github.com/login/oauth/authorize?${querystring.stringify({ client_id: config.client_id })}`;
@@ -25,7 +25,7 @@ router.get('/github/login', async (ctx) => {
     ctx.redirect(path);
 })
 
-router.get('/github/callback', async (ctx) => {
+router.get('/auth/github/callback', async (ctx) => {
     console.log('callback..')
     const code = ctx.query.code;
     const params = {
@@ -51,7 +51,7 @@ router.get('/github/callback', async (ctx) => {
     ctx.response.body = ` <script>window.localStorage.setItem("authSuccess","true");window.localStorage.setItem("token","${token}");window.close();</script>`;
 })
 
-router.get('/github/userinfo', jwtAuth({
+router.get('/auth/github/userinfo', jwtAuth({
     secret
 }), async (ctx) => {
     // 验证通过，state.user
@@ -64,4 +64,4 @@ router.get('/github/userinfo', jwtAuth({
 
 app.use(router.routes()); /*启动路由*/
 app.use(router.allowedMethods());
-app.listen(3000);
+app.listen(7001);

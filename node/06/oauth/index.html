@@ -51,7 +51,7 @@
       },
       methods: {
         async oauth() {
-          window.open('/github/login', '_blank')
+          window.open('/auth/github/login', '_blank')
           const intervalId = setInterval(() => {
             console.log("等待认证中..");
             if (window.localStorage.getItem("authSuccess")) {
@@ -62,7 +62,7 @@
           }, 500);
         },
         async getUser() {
-          const res = await axios.get("/github/userinfo");
+          const res = await axios.get("/auth/github/userinfo");
           console.log('res:',res.data)
           this.userInfo = res.data
         }
