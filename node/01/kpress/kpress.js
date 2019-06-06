@@ -1,8 +1,9 @@
 const http = require('http')
 const url = require('url')
+const { EventEmitter } = require('events')
 
 let routers = []
-class Application {
+class Application extends EventEmitter {
     get(path, handler) {
         console.log('get...', path)
         if (typeof path === 'string') {
@@ -31,6 +32,9 @@ class Application {
                     return handler(req, res)
                 }
             }
+            process.on('uncaughtException', e=> {
+                console.log('Server Exception:',e)
+            })
         })
         server.listen(...arguments)
     }

@@ -39,18 +39,6 @@ const generator = function* (name) {
 // }
 // co(generator,'CO');
 
-// co = require('co')
-// const Thunkify = require("thunkify");
-// const thunkify = Thunkify((name,callback) =>{
-//     setTimeout(() => {
-//         log('CO/thunkify')
-//         callback()
-//     })
-// });
-// co(function* (){
-//     yield thunkify('CO/thunkify')
-//     yield thunkify('CO/thunkify')
-// });
 
 setTimeout(async () => {
     await promise('Async/await')
