@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>file test</title>
+<script>
+window.onload=function(){
+    var files = document.getElementsByTagName('input'),
+    len = files.length,
+    file;
+    for (var i = 0; i < len; i++) {
+        file = files[i];
+        if (file.type !== 'file') continue; // 不是文件类型的控件跳过
+        file.onchange = function() {
+            var _files = this.files;
+            if (!_files.length) return;
+            if (_files.length === 1) { // 选择单个文件
+                var xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://localhost:3000/upload');
+                var filePath = files[0].value;
+                xhr.setRequestHeader('file-name', filePath.substring(filePath.lastIndexOf('\\') + 1));
+                xhr.send(_files[0]);
+            } else { }
+        };
+    }
+};
+</script>
+</head>
+<body>
+    <input type="file" />
+</body>
+</html>
