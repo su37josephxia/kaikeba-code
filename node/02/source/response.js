@@ -1,8 +1,9 @@
 module.exports = {
-    get body() {
+    get body(){
         return this._body
     },
-    set body(val) {
+    set body(val){
         this._body = val
     }
 }
+

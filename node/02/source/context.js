@@ -5,10 +5,10 @@ module.exports = {
     get body() {
         return this.response.body
     },
-    set body(val) {
+    set body(val){
         this.response.body = val
     },
-    get method(){
+    get method() {
         return this.request.method
     }
 }

@@ -1,50 +1,49 @@
 const Koa = require('koa')
-const app =new Koa()
-// const mid1 = async (ctx,next) => {
-//     ctx.body = 'Hello'
-//     await next()
-//     ctx.body = ctx.body + '!!!'
-// }
+const app = new Koa()
+// app.use((ctx, next) => {
+//     ctx.body = [
+//         {
+//             name: 'tom'
+//         }
+//     ]
+//     next()
+// })
 
-// const mid2 = async (ctx,next) => {
+// const router = {}
+// router['/html'] = ctx => {
 //     ctx.type = 'text/html;charset=utf-8'
-//     await next()
+//     ctx.body = `<b>我的名字是:${ctx.body[0].name}</b>`
 // }
 
-// const mid3 = async (ctx,next) => {
-//     ctx.body = ctx.body + 'Kaikeba'
-//     await next()
-// }
 
-// app.use(mid1)
-// app.use(mid2)
-// app.use(mid3)
+// app.use((ctx, next) => {
+//     // ctx.body && ctx.body.push(
+//     //     {
+//     //         name:'jerry'
+//     //     }
+//     // )
+//     console.log('url' + ctx.url)
+//     router[ctx.url](ctx)
+// })
 app.use(async (ctx,next) => {
-    await next()
-    const rt = ctx.response.get('X-Response-Time')
-    console.log(`输入计时：${ctx.method} ${ctx.url}  - ${rt}`)
+    const start = new Date().getTime()
+    console.log(`start: ${ctx.url}`);
+    await next();s
+    const end = new Date().getTime()
+    console.log(`请求${ctx.url}, 耗时${parseInt(end-start)}ms`)
 })
 
-app.use(async (ctx,next) => {
-    const start = Date.now()
-    console.log(`开始计时`)
-    await next()
-    const ms = Date.now() - start
-    ctx.set('X-Response-Time',`${ms}ms`)
-    console.log('计时结束')
-})
-
-const static = require('koa-static')
-app.use(static(__dirname + '/public'))
-
+app.use(require('koa-static')(__dirname + '/'))
 const router = require('koa-router')()
-router.get('/string',async ctx => {
-    ctx.body = 'abc'
+router.get('/string',async (ctx,next) => {
+    ctx.body = 'koa2 string'
 })
-router.get('/json',async ctx => {
+router.get('/json',async (ctx,next) => {
     ctx.body = {
-        hello:'json'
+        title: 'koa2 json'
     }
 })
 app.use(router.routes())
+
+
 app.listen(3000)
