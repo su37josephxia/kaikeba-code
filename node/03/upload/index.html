@@ -3,7 +3,7 @@
 <title>file test</title>
 <script>
 window.onload=function(){
-    var files = document.getElementsById('input'),
+    var files = document.getElementsByTagName('input'),
     len = files.length,
     file;
     for (var i = 0; i < len; i++) {
@@ -28,9 +28,9 @@ window.onload=function(){
     <input id='file1' type="file" />
 
 
-    <form action="/upload">
+    <!-- <form action="/upload">
         <input type="file">
         <input type="submit" name='upload'>
-    </form>
+    </form> -->
 </body>
 </html>
