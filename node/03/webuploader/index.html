@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src='http://cdn.staticfile.org/webuploader/0.1.0/webuploader.min.js'></script>
+</head>
+<body>
+    <div id="uploader" class="wu-example">
+        <!--用来存放文件信息-->
+        <div id="thelist" class="uploader-list"></div>
+        <div class="btns">
+            <div id="picker">选择文件</div>
+            <button id="ctlBtn" class="btn btn-default">开始上传</button>
+        </div>
+    </div>
+    <script>
+        var uploader = WebUploader.create({
+
+// swf文件路径
+swf: BASE_URL + '/js/Uploader.swf',
+
+// 文件接收服务端。
+server: 'http://webuploader.duapp.com/server/fileupload.php',
+
+// 选择文件的按钮。可选。
+// 内部根据当前运行是创建，可能是input元素，也可能是flash.
+pick: '#picker',
+
+// 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+resize: false
+});
+
+    </script>
+</body>
+</html>

@@ -4,15 +4,18 @@ const path = require('path')
 const server = http.createServer((request, response) => {
     const { pathname } = require('url').parse(request.url)
     if (pathname === '/upload') {
-        const fileName = request.headers['file-name']
+        const fileName = request.headers['file-name'] ? request.headers['file-name'] : 'abc.png'
         const outputFile = path.resolve(__dirname, fileName)
         const fis = fs.createWriteStream(outputFile)
 
-        request.on('data', data => fis.write(data))
-        request.on('finish', () => {
-            fis.end()
-            response.end()
-        })
+        // request.on('data', data => fis.write(data))
+        // request.on('finish', () => {
+        //     fis.end()
+        //     response.end()
+        // })
+
+        request.pipe(fis)
+        response.end()
 
     } else {
         const filename = pathname === '/' ? 'index.html' : pathname.substring(1)

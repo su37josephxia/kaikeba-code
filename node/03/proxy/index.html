@@ -1,0 +1,8 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    (async () => {
+        const res = await axios.get("/api/user")
+        console.log('data',res.data)
+        document.writeln(JSON.stringify(res.data))
+    })()
+</script>
