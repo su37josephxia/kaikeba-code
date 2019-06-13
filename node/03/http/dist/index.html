@@ -1,0 +1,10 @@
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    (async () => {
+        // axios.defaults.baseURL = 'http://localhost:3000'
+        const res = await axios.get("/api/users")
+        console.log('data',res.data)
+        document.writeln(`Response : ${JSON.stringify(res.data)}`)
+    })()
+</script>
+AAA

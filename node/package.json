@@ -40,6 +40,11 @@
     "redis": "^2.8.0",
     "sequelize": "^5.8.5",
     "socket.io": "^2.2.0",
-    "trek-captcha": "^0.4.0"
+    "trek-captcha": "^0.4.0",
+    "webpack": "^4.33.0",
+    "webpack-dev-server": "^3.7.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.4"
   }
 }

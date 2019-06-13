@@ -1,15 +1,13 @@
 const express = require('express')
 const app = express()
-const http = require('http').Server(app)
-
 const bodyParser = require('body-parser');
 const path = require('path')
 
-app.use(bodyParser.json());
+app.use(bodyParser.json()); 
 
 const list = ['ccc', 'ddd']
 
-app.get('/', (req, res) => {
+app.get('/', (req,res)=>{
     res.sendFile(path.resolve('./index.html'))
 })
 
