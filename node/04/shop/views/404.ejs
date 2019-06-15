@@ -1,0 +1,8 @@
+<%- include('includes/head.ejs') %>
+</head>
+
+<body>
+    <%- include('includes/navigation.ejs') %>
+    <h1>Page Not Found!</h1>
+
+<%- include('includes/end.ejs') %>
