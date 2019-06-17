@@ -5,12 +5,6 @@ const getVip = require('./middleware/get-vip')
 
 const session = require('koa-session')
 
-const cors = require('koa2-cors')
-app.use(cors())
-
-const bouncer = require('koa-bouncer')
-app.use(bouncer.middleware())
-
 // 签名key keys作用 用来对cookie进行签名
 app.keys = ['some secret'];
 
@@ -93,8 +87,10 @@ const index = require('./routes/index');
 const users = require('./routes/users');
 app.use(index.routes());
 app.use(users.routes());
-app.use(require('./routes/api').routes())
-app.use(require('./routes/students').routes())
+
+
+
+
 
 
 app.on('error', (err, ctx) => {

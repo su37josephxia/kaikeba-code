@@ -1,11 +1,19 @@
-module.exports = app => ({
-    // 'get /':async ctx => {
-    //     ctx.body = '首页'
-    // },
-    // 'get /detail': ctx => {
-    //     ctx.body = '详细页面'
-    // }
+const Router = require("koa-router");
+const router = new Router();
+router.get("/", async ctx => {
+  //若cookie中存在记录则不再播放，index.js
+  let showVideo;
+  if (ctx.cookies.get('isPlayed')) {
+    showVideo = false;
+  } else {
+    showVideo = true;
+    ctx.cookies.set('isPlayed', true, { maxAge: 7 * 24 * 3600000 });
+  }
 
-    'get /': app.$ctrl.home.index,
-    'get /detail': app.$ctrl.home.detail
-})
+  // ctx.body = "index";
+  const list = [...ctx.state.vipCourses];
+  list.sort((a, b) => (a.sort - b.sort));
+  
+  await ctx.render('index', { list, showVideo })
+});
+module.exports = router;
