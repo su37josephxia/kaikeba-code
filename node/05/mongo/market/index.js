@@ -28,5 +28,18 @@ app.get('/api/list', async (req, res) => {
   })
 })
 
+app.get("/api/category", async (req, res) => {
+  const col = mongo.col("fruits");
+  const data = await col.distinct('category');
+  res.json({ ok: 1, data });
+})
+
+app.get("/api/search", async (req, res) => {
+  const { keyword } = req.query;
+  const col = mongo.col("fruits");
+  const data = await col.find({ name: { $regex: new RegExp(keyword) } }).toArray();
+  res.json({ ok: 1, data });
+})
+
 
 app.listen(3000)

@@ -28,12 +28,12 @@
   console.log('查询文档:', ret)
 
   // 更新文档
-  ret = await fruits.updateOne({ name: '芒果' }, 
-  { $set: { name: '苹果' } })
+  ret = await fruits.updateOne({ name: '芒果' },
+    { $set: { name: '苹果' } })
   console.log('更新文档', JSON.stringify(ret.result))
 
   // 删除文档
-  ret = await fruits.deleteOne({name: '苹果'})
+  ret = await fruits.deleteOne({ name: '苹果' })
 
   await fruits.deleteMany()
 
