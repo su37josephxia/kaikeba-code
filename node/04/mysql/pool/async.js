@@ -18,7 +18,7 @@ const asyncFun = async (fun, curMax = 4, sum = 200) => {
             num++
             curNum++
         } else {
-            await sleep(500)
+            await sleep(10)
         }
     }
     console.log('endTime:' + new Date().toLocaleString())

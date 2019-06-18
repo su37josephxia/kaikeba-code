@@ -23,16 +23,15 @@
     }
 
     // 连接池
-    const query = async () => {
-        
-        const connection = await pool.getConnection()
-        const [rows, fields] = await connection.execute(`SELECT * FROM users`)
-        console.log('select:', rows)
-        connection.release()
-    }
+    // const query = async () => {
+    //     const connection = await pool.getConnection()
+    //     const [rows, fields] = await connection.execute(`SELECT * FROM users`)
+    //     console.log('select:', rows)
+    //     connection.release()
+    // }
 
     const { asyncFun } = require('./async')
-    await asyncFun(query, 20, 500)
+    await asyncFun(query, 20, 100)
 
 })()
 
