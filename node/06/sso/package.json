@@ -1,0 +1,16 @@
+{
+  "name": "nodejs-sso-example",
+  "version": "1.0.0",
+  "description": "An example of a single sign on node.js",
+  "main": "index.js",
+  "author": "biu",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.7",
+    "express": "^4.15.4",
+    "express-session": "^1.15.5",
+    "request": "^2.81.0"
+  }
+}
