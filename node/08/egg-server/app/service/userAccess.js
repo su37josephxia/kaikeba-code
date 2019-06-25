@@ -1,7 +1,4 @@
-'use strict'
-
 const Service = require('egg').Service
-
 class UserAccessService extends Service {
 
   async login(payload) {

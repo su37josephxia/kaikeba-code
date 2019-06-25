@@ -1,0 +1,29 @@
+{
+  "name": "ts-kkb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev ./src/index.ts -P tsconfig.json --no-cache",
+    "build": "tsc -P tsconfig.json && node ./dist/index.js",
+    "tslint": "tslint --fix -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node-dev": "^1.0.0-pre.40",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-body": "^4.1.0",
+    "koa-static": "^5.0.0",
+    "koa-xtime": "^1.0.0",
+    "mysql2": "^1.6.5",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.8.12",
+    "sequelize-typescript": "^0.6.11"
+  }
+}

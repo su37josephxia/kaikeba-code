@@ -1,4 +1,3 @@
-'use strict'
 const Controller = require('egg').Controller
 /**
  * @Controller 用户鉴权
@@ -18,6 +17,12 @@ class UserAccessController extends Controller {
    */
   async login() {
     const { ctx, service } = this
+
+
+    ctx.logger.debug('login debug..',service.user)
+    ctx.logger.info('login info..',service.user)
+
+
     // 校验参数
     ctx.validate(ctx.rule.loginRequest);
     // 组装参数

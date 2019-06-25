@@ -16,16 +16,12 @@ class UserController extends Controller {
    */
   async create() {
     const { ctx, service } = this
-
     // 校验参数
-    ctx.validate(ctx.rule.loginRequest)
-
+    ctx.validate(ctx.rule.createUserRequest)
     // 组装参数
     const payload = ctx.request.body || {}
-
     // 调用 Service 进行业务处理
     const res = await service.user.create(payload)
-
     // 设置响应内容和响应状态码
     ctx.helper.success({ctx, res})
   }
@@ -58,7 +54,7 @@ class UserController extends Controller {
   async update() {
     const { ctx, service } = this
     // 校验参数
-    ctx.validate(ctx.rule.loginRequest)
+    ctx.validate(ctx.rule.createUserRequest)
     // 组装参数
     const { id } = ctx.params
     const payload = ctx.request.body || {}

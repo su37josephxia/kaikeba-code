@@ -12,11 +12,13 @@ module.exports = appInfo => {
    **/
   const config = exports = {};
 
+  config.middleware = ['errorHandler']
+
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1560928953205_8407';
+  config.keys = appInfo.name + '_1561360025632_2268';
 
   // add your middleware config here
-  config.middleware = ['errorHandler'];
+  config.middleware = [];
 
   config.swaggerdoc = {
     dirScanner: './app/controller',
@@ -29,11 +31,10 @@ module.exports = appInfo => {
     consumes: ['application/json'],
     produces: ['application/json'],
     enableSecurity: false,
-    // enableValidate: true,
+    enableValidate: true,
     routerMap: true,
     enable: true,
   }
-
   config.mongoose = {
     url: 'mongodb://127.0.0.1:27017/egg_x',
     options: {
@@ -50,15 +51,15 @@ module.exports = appInfo => {
     match: /^\/api/, // optional
   }
 
+  config.logger = {
+    level: 'DEBUG',
+  }
+
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
   };
 
-  // 上传配置
-  config.multipart = {
-    fileExtensions: ['.png', '.jpeg', '.docx'], // 增加对 .apk 扩展名的支持
-  }
   
 
   return {

@@ -1,3 +1,4 @@
+// app/contract/index.js
 module.exports = {
     baseRequest:{
       id: { type: 'string', description: 'id 唯一键' ,required:true,example:'1'},
@@ -8,4 +9,4 @@ module.exports = {
       data:{type: 'string',example: '请求成功' },
       errorMessage: { type: 'string', example: '请求成功' },
     },
-  }
+  };

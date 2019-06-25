@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "es2017",
+        "module": "commonjs",
+        "sourceMap": true,
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "allowSyntheticDefaultImports": true,
+        "lib": ["es2015"],
+        "typeRoots": ["./node_modules/@types"],
+        "types": ["koa-body"]
+    },
+    "include": ["src/**/*"]
+}
