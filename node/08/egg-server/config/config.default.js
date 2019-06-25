@@ -12,10 +12,8 @@ module.exports = appInfo => {
    **/
   const config = exports = {};
 
-  config.middleware = ['errorHandler']
-
   // use for cookie sign key, should change to your own and keep security
-  config.keys = appInfo.name + '_1561360025632_2268';
+  config.keys = appInfo.name + '_1561446865227_2139';
 
   // add your middleware config here
   config.middleware = [];
@@ -31,10 +29,11 @@ module.exports = appInfo => {
     consumes: ['application/json'],
     produces: ['application/json'],
     enableSecurity: false,
-    enableValidate: true,
+    // enableValidate: true,
     routerMap: true,
     enable: true,
   }
+
   config.mongoose = {
     url: 'mongodb://127.0.0.1:27017/egg_x',
     options: {
@@ -44,23 +43,16 @@ module.exports = appInfo => {
       bufferMaxEntries: 0,
     },
   }
-
   config.jwt = {
     secret: 'Great4-M',
     enable: true, // default is false
     match: /^\/api/, // optional
   }
 
-  config.logger = {
-    level: 'DEBUG',
-  }
-
   // add your user config here
   const userConfig = {
     // myAppName: 'egg',
   };
-
-  
 
   return {
     ...config,

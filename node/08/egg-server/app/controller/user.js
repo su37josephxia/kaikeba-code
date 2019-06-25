@@ -70,7 +70,6 @@ class UserController extends Controller {
    * @router get /api/user/{id}
    * @request url baseRequest
    * @response 200 baseResponse 创建成功
-   * @ignore
    */
   async show() {
     const { ctx, service } = this
@@ -109,7 +108,6 @@ class UserController extends Controller {
    * @router delete /api/user/{id}
    * @request path string *id
    * @response 200 baseResponse 创建成功
-   * @ignore
    */
   async removes() {
     const { ctx, service } = this

@@ -89,7 +89,8 @@
     <div id="app">
 
         <el-upload v-show="imageUrl.length < 1" class="avatar-uploader" :action="serverUrl" :show-file-list="false"
-        multiple :before-upload="beforeUpload" :headers="token" :on-success="handleSuccess" :on-progress="uploadProcess">
+            multiple :before-upload="beforeUpload" :headers="token" :on-success="handleSuccess"
+            :on-progress="uploadProcess">
             <i v-show="imageUrl =='' && imgFlag == false" class="el-icon-plus avatar-uploader-icon"></i>
             <el-progress v-show="imgFlag == true" type="circle" :percentage="percent" style="margin-top: 20px">
             </el-progress>
@@ -140,7 +141,6 @@
                     this.$message.error('上传图片不能超过10MB哦!');
                     return false;
                 }
-
                 // 设置认证信息
                 const token = window.localStorage.getItem("token")
                 this.token["Authorization"] = "Bearer " + token

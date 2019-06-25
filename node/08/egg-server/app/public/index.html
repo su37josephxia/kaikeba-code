@@ -33,14 +33,6 @@
         <div>
             <el-button onclick="document.getElementById('log').innerHTML = ''">Clear Log</el-button>
         </div>
-        <div>
-            <el-upload class="upload-demo" drag action="/api/upload/single" :before-upload="beforeUpload"
-                :headers="token" :on-progress="onProgress" :on-sucess="onSucess" list-type="picture-card"
-                accept="image/gif, image/jpeg,image/png"
-                >
-                <i class="el-icon-plus"></i>
-            </el-upload>
-        </div>
         <h6 id="log"></h6>
     </div>
     <script>
@@ -89,44 +81,23 @@
                     this.list.map(v => {
                         axios.delete(`/api/user/${v._id}`)
                     })
-
                 },
                 async login() {
                     const res = await axios.post('/auth/jwt/login', {
                         mobile: '13611388415',
-                        password: '1234qert'
+                        password: '111111'
                     })
                     localStorage.setItem("token", res.data.data.token);
                 },
-
                 async logout() {
                     const res = await axios.post('/auth/jwt/logout')
                     localStorage.removeItem("token");
                 },
-
                 async getUserList() {
                     await axios.get('/api/user')
-                },
-
-                beforeUpload() {
-                    console.log('before...')
-                    const token = window.localStorage.getItem("token")
-                    this.token["Authorization"] = "Bearer " + token
-                },
-                onProgress(event, file, fileList) {
-                    this.imgFlag = true;
-                    this.percent = (Math.floor(event.percent)).toFixed();
-                    console.log(this.percent);
-                },
-                onSucess(response, file, fileList) {
-                    console.log('response...', response)
                 }
-
-
             },
-            mounted: function () {
-
-            },
+            mounted: function () {},
         });
     </script>
 </body>
