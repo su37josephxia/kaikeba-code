@@ -1,13 +1,12 @@
 {
-  "name": "ts-kkb",
+  "name": "ts-server2",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "ts-node-dev ./src/index.ts -P tsconfig.json --no-cache",
     "build": "tsc -P tsconfig.json && node ./dist/index.js",
-    "tslint": "tslint --fix -p tsconfig.json",
-    "hello": "ts-node-dev ./src/hello.ts -P tsconfig.json --no-cache"
+    "tslint": "tslint --fix -p tsconfig.json"
   },
   "keywords": [],
   "author": "",
@@ -20,6 +19,7 @@
   "dependencies": {
     "koa": "^2.7.0",
     "koa-body": "^4.1.0",
+    "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "koa-xtime": "^1.0.0",
     "mysql2": "^1.6.5",

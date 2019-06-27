@@ -1,22 +1,20 @@
 import * as Koa from 'koa'
-import { get, post, middlewares } from '../utils/route-decors'
+import { get, post, middlewares } from '../utils/decors'
+const users = [{ name: 'tom', age: 20 }]
 const api = {
     findByName(name) {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (name === 'jerry') {
-                    reject('用户名已存在')
+                if (name === 'xia') {
+                    reject('用户已存在')
                 } else {
                     resolve()
                 }
-            }, 500);
+            }, 500)
         })
     }
 }
-
-const users = [{ name: 'tom', age: 20 }, { name: 'tom', age: 20 }];
-import model from '../model/user';
-
+import model from '../model/user'
 
 @middlewares([
     async function guard(ctx: Koa.Context, next: () => Promise<any>) {
@@ -30,8 +28,10 @@ import model from '../model/user';
     }
 ])
 export default class User {
+
     @get('/users')
     public async list(ctx: Koa.Context) {
+        // ctx.body = { ok: 1, data: users }
         const users = await model.findAll()
         ctx.body = { ok: 1, data: users };
     }
@@ -59,4 +59,5 @@ export default class User {
         users.push(ctx.request.body);
         ctx.body = { ok: 1 }
     }
+
 }
