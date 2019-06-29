@@ -1,0 +1,13 @@
+version: '3.1'
+services:
+  slb:
+    restart: always
+    image: nginx
+    ports:
+      - 8091:80
+    volumes:
+      - ./slb/conf.d/:/etc/nginx/conf.d
+  server1:
+    build: ./server1
+  server2:
+    build: ./server2

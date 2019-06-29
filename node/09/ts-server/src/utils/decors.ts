@@ -41,6 +41,8 @@ export const post = method('post')
 export const put = method('put')
 export const del = method('del')
 
+
+
 export const load = (folder: string, options: LoadOptions = {}): KoaRouter => {
     const extname = options.extname || '.{js,ts}'
     glob.sync(require('path').join(folder, `./**/*${extname}`)).forEach((item) => require(item))
