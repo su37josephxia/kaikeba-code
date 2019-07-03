@@ -1,5 +1,5 @@
 import * as Koa from 'koa'
-import { get, post, middlewares } from '../utils/decors'
+import { get, post, middlewares, querystring } from '../utils/decors'
 const users = [{ name: 'tom', age: 20 }]
 const api = {
     findByName(name) {
@@ -16,19 +16,22 @@ const api = {
 }
 import model from '../model/user'
 
-@middlewares([
-    async function guard(ctx: Koa.Context, next: () => Promise<any>) {
-        console.log('guard', ctx.header);
+// @middlewares([
+//     async function guard(ctx: Koa.Context, next: () => Promise<any>) {
+//         console.log('guard', ctx.header);
 
-        if (ctx.header.token) {
-            await next();
-        } else {
-            throw "请登录";
-        }
-    }
-])
+//         if (ctx.header.token) {
+//             await next();
+//         } else {
+//             throw "请登录";
+//         }
+//     }
+// ])
 export default class User {
     @get('/users')
+    @querystring({
+        age: { type: 'int', required: false, max: 200, convertType: 'int' },
+    })
     public async list(ctx: Koa.Context) {
         ctx.body = { ok: 1, data: users }
         // const users = await model.findAll()
