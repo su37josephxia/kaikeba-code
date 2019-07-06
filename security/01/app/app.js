@@ -36,13 +36,12 @@ app.use(views(__dirname + '/views', {
 }));
 
 
-
 app.use(async (ctx, next) => {
     await next()
     // 参数出现在HTML内容或属性浏览器会拦截
     ctx.set('X-XSS-Protection', 0)
     // ctx.set('Content-Security-Policy', "default-src 'self'")
-    // ctx.set('X-FRAME-OPTIONS', 'DENY')
+    ctx.set('X-FRAME-OPTIONS', 'DENY')
     // const referer = ctx.request.header.referer
     // console.log('Referer:', referer)
 
@@ -55,15 +54,16 @@ app.use(async (ctx, next) => {
 
 
 router.get('/', async (ctx) => {
-    // res = await query('select * from test.text')
+    res = await query('select * from test.text')
     // ctx.set('X-FRAME-OPTIONS', 'DENY')
     await ctx.render('index', {
         from: ctx.query.from,
         username: ctx.session.username,
-        // text: res[0].text,
-        text:'abc'
+        text: res[0].text,
     });
 });
+
+
 
 router.get('/login', async (ctx) => {
     await ctx.render('login');
@@ -78,38 +78,38 @@ router.post('/login', async (ctx) => {
     let sql = `
     SELECT *
     FROM test.user
-    WHERE username = ? 
-    -- AND password = ?
+    WHERE username = '${username}'
+    AND password = '${password}'
     `
     console.log('sql', sql)
-    res = await query(sql, [ctx.request.body.username, ctx.request.body.password])
+    res = await query(sql)
     console.log('db', res)
-    // if (res.length !== 0) {
-    //     ctx.redirect('/?from=china')
-    //     ctx.session.username = ctx.request.body.username
-    // }
-
-    if (res.length !== 0 && res[0].salt === null) {
-        console.log('no salt ..')
-        if (password === res[0].password) {
-            sql = `
-                update test.user
-                set salt = ?,
-                password = ?
-                where username = ?
-            `
-            const salt = Math.random() * 99999 + new Date().getTime()
-            res = await query(sql, [salt, encryptPassword(salt, password), username])
-            ctx.session.username = ctx.request.body.username
-            ctx.redirect('/?from=china')
-        }
-    } else {
-        console.log('has salt')
-        if (encryptPassword(res[0].salt, password) === res[0].password) {
-            ctx.session.username = ctx.request.body.username
-            ctx.redirect('/?from=china')
-        }
+    if (res.length !== 0) {
+        ctx.redirect('/?from=china')
+        ctx.session.username = ctx.request.body.username
     }
+
+    // if (res.length !== 0 && res[0].salt === null) {
+    //     console.log('no salt ..')
+    //     if (password === res[0].password) {
+    //         sql = `
+    //             update test.user
+    //             set salt = ?,
+    //             password = ?
+    //             where username = ?
+    //         `
+    //         const salt = Math.random() * 99999 + new Date().getTime()
+    //         res = await query(sql, [salt, encryptPassword(salt, password), username])
+    //         ctx.session.username = ctx.request.body.username
+    //         ctx.redirect('/?from=china')
+    //     }
+    // } else {
+    //     console.log('has salt')
+    //     if (encryptPassword(res[0].salt, password) === res[0].password) {
+    //         ctx.session.username = ctx.request.body.username
+    //         ctx.redirect('/?from=china')
+    //     }
+    // }
 });
 
 router.post('/updateText', async (ctx) => {
