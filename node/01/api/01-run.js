@@ -1,24 +1,35 @@
-// const str = 'haha'
-console.log('hello world..')
-// console.log('abc ..'+ str)
-
 const os = require('os')
-const util = require('util')
 const mem = os.freemem() / os.totalmem() * 100
-console.log(`内存占用率${mem}%`)
+console.log(`内存占用率${mem.toFixed(2)}%`)
 
-const cpuStat = require('cpu-stat')
-const getCpu = util.promisify(cpuStat.usagePercent)
-// getCpu().then(
-//     percent => {
-//         console.log(`CPU占用：${percent.toFixed(2)}%`)
+
+
+
+// inquirer = require('inquirer')
+// inquirer.prompt([
+//     {
+//         type: 'input',
+//         name: 'author',
+//         message: '请输入你的名字',
+//         default: 'josephxia'
 //     }
-// )
-const showState1 = async () => {
-    const mem = (os.freemem() / os.totalmem()) * 100
-    const percent = await getCpu()
-    console.log(`CPU占用:${percent.toFixed(2)}% 内存: ${percent}`)
-}
+// ]).then(answers => {
+//     console.log('answers:', answers)
+// })
 
-// module.exports = { showState }
-module.exports.showState = showState1
+// const {
+//     promisify
+// } = require('util')
+// downGit()
+
+// async function downGit() {
+//     const download = promisify(require('download-git-repo'))
+//     const ora = require('ora')
+//     const process = ora(`下载.....项目`)
+//     process.start()
+//     await download('github:su37josephxia/vue-template', 'test')
+//     process.succeed()
+// }
+
+const {downGit} = require('./down')
+downGit()
