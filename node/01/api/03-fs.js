@@ -1,8 +1,11 @@
 const fs = require('fs')
-// const data = fs.readFileSync('./app.js')
-// console.log(Buffer.from(data).toString())
-const path = require('path')
-fs.readFile(path.resolve(path.resolve(__dirname, './app.js')), (err, data) => {
-    if (err) throw err
+
+// 同步
+// const data = fs.readFileSync('./download.js')
+// console.log(data,data.toString())
+
+// 异步方式
+fs.readFile('./download.js',(err,data) => {
+    if(err) throw err
     console.log(data)
 })

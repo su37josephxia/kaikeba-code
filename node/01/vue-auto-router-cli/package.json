@@ -1,15 +1,15 @@
 {
   "name": "vue-auto-router-cli",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "kkb": "./bin/kkb"
+  },
   "keywords": [],
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "commander": "^2.20.0"
-  }
+  "license": "ISC"
 }

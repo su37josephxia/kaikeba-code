@@ -1,7 +1,11 @@
 const buf1 = Buffer.alloc(10)
 console.log(buf1)
 
-// 创建一个Buffer
-const buf2 = Buffer.from('创')
-const buf3 = Buffer.from('造')
-console.log(buf2, Buffer.concat([buf2, buf3]).toString('utf8'))
+const buf2 = Buffer.from('a')
+console.log(buf2,buf2.toString())
+
+const buf3 = Buffer.from('中文')
+console.log(buf3)
+
+const buf4 = Buffer.concat([buf2,buf3])
+console.log(buf4,buf4.toString())
