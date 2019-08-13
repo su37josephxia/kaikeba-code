@@ -26,7 +26,6 @@
             <p>{{ scope.row.orderItem.quantity }}</p>
           </template>
         </el-table-column>
-
       </el-table>
       </div>
         

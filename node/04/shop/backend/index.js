@@ -107,8 +107,18 @@ router.post('/orders', async ctx => {
     await fetchedCart.setProducts(null);
     ctx.body = { success: true }
 })
+router.delete('/cartItem/:id', async ctx => {
+    const id = ctx.params.id
+    const cart = await ctx.user.getCart()
+    const products = await cart.getProducts({
+        where: { id }
+    })
+    const product = products[0]
+    await product.cartItem.destroy()
+    ctx.body = { success: true }
+})
 router.get('/orders', async ctx => {
-    const orders = await ctx.user.getOrders({ include: ['products'] })
+    const orders = await ctx.user.getOrders({ include: ['products'], order: [['id', 'DESC']] })
     ctx.body = { orders }
 })
 

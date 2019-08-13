@@ -1,5 +1,5 @@
 module.exports = {
-    database: 'kaikeba',
+    database: 'shop',
     username: 'root',
     password:'example',
     host:'localhost'

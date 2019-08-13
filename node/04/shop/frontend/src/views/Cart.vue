@@ -38,7 +38,6 @@
 </template>
 
 <script>
-import qs from "querystring";
 export default {
   data() {
     return {
@@ -59,8 +58,7 @@ export default {
 
     // 删除购物车项
     async cartDeleteItem(row) {
-      const params = { productId: row.id };
-      const res = await this.$axios.delete("api/cartItem", params);
+      const res = await this.$axios.delete("api/cartItem/" + row.id);
       if (res.data.success) {
         await this.getCart();
       }
