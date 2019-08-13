@@ -9,9 +9,9 @@ function fun(arg, callback) {
 }
 
 // 回调方式
-// fun('./index1.js', (err, data) => {
-//     console.log(err ? 'read err' : data)
-// })
+fun('./index1.js', (err, data) => {
+    console.log(err ? 'read err' : data)
+})
 
 // promise方式
 const promisify = require('./promisify')
@@ -24,10 +24,11 @@ const promise = promisify(fun)
 //         , err => {
 //             console.log('err::', err)
 //         }
-//     ).catch(
-        // res => {
-        //     console.log('catch data::', res)
-        // })
+//     )
+//     .catch(
+//         res => {
+//             console.log('catch data::', res)
+//         })
 
 // await方式
 setTimeout(async () => {
