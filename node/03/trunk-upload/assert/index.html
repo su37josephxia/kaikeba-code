@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>upload img</title>
+    <link rel="stylesheet" href="/assert/css/webuploader.css" />
+    <script src="/assert/js/jquery.js"></script>
+    <script src="/assert/js/webuploader.html5only.js"></script>
+</head>
+<body>
+<a href="javascript:;" id="upload">上传</a>
+<script>
+    var guid = WebUploader.guid();
+    var chunks = null;
+    var ext = null;
+	var uploader = WebUploader.create({
+
+		auto: true,
+		server: '/upload',
+		pick: '#upload',
+        chunked: true,
+        chunkSize: 1024 * 10,
+		chunkRetry: 3,
+		thread: 5,
+        formData: {
+			guid,
+        }
+	});
+	uploader.on( 'uploadAccept', function( file, response ) {
+		console.log('uploadAccept',response.flag)
+		if (!response.flag ) {
+			return false;
+		}else{
+			chunks = response.chunks;
+			ext = response.ext;
+			console.log('uploadAccept',response.ext)
+			return true
+		}
+	});
+	uploader.on('uploadError', function (file, reason) {
+        console.log(reason, 'error')
+	});
+	uploader.on('uploadSuccess', function (file, reason) {
+		console.log('file...',file)
+		$.ajax({
+            type: 'POST',
+            url: '/merge',
+            data: {
+            	guid,
+                chunks,
+                ext
+            },
+            success (data) {
+            	const {flag} = data;
+            	console.log(flag)
+            }
+        })
+	});
+	uploader.on('error', function (type) {
+        console.log('error',type);
+	});
+	uploader.on('uploadComplete', function (file) {
+        console.log(file)
+	})
+</script>
+</body>
+</html>
