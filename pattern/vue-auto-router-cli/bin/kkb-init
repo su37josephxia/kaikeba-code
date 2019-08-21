@@ -1,12 +1,11 @@
-#!/usr/bin/env node
+#! /usr/bin/env node
 
 const program = require('commander')
-program
-    .action(async name => {
-        const {
-            clone
-        } = require('../lib/download')
-        console.log('🚀创建项目: ' + name)
-        await clone('github:su37josephxia/vue-template', name)
-    })
+program.action(async name => {
+    const {
+        clone
+    } = require('../lib/download')
+    console.log('🚀创建项目: ' + name)
+    await clone('github:su37josephxia/vue-template', name)
+})
 program.parse(process.argv)
