@@ -1,18 +1,16 @@
 const fs = require('fs')
 const path = require('path')
 const Router = require('koa-router')
-const Sequelize = require('sequelize')
 
 function load(dir, cb) {
     // 获取绝对路径
     const url = path.resolve(__dirname, dir)
+    // 读取文件
     const files = fs.readdirSync(url)
     files.forEach(filename => {
-        // 去掉后缀名
+        // 去掉扩展名
         filename = filename.replace('.js', '')
-        // 导入文件
         const file = require(url + '/' + filename)
-        // 处理逻辑
         cb(filename, file)
     })
 }
@@ -20,22 +18,23 @@ function load(dir, cb) {
 function initRouter(app) {
     const router = new Router()
     load('routes', (filename, routes) => {
-        // 若是index无前缀，别的文件前缀就是文件名
+        // 前缀
         const prefix = filename === 'index' ? '' : `/${filename}`
 
         // 判断路由类型
         routes = typeof routes === 'function' ? routes(app) : routes
 
-        // 遍历路由并添加到路由器
+        // 遍历路由
         Object.keys(routes).forEach(key => {
             const [method, path] = key.split(' ')
-            console.log(`正在映射地址: ${method.toLocaleUpperCase()} ${prefix}${path}`)
-            // 执行router.method
+            console.log(`正在映射地址: ${method.toLocaleLowerCase()} ${prefix}${path}`)
+
             // router[method](prefix + path, routes[key])
             router[method](prefix + path, async ctx => {
                 app.ctx = ctx
                 await routes[key](app)
             })
+
         })
     })
     return router
@@ -44,21 +43,19 @@ function initRouter(app) {
 function initController() {
     const controllers = {}
     load('controller', (filename, controller) => {
-        // 添加路由
         controllers[filename] = controller
     })
     return controllers
 }
 
-function initService(app) {
+function initService() {
     const services = {}
     load('service', (filename, service) => {
-        services[filename] = service(app)
+        services[filename] = service
     })
-    console.log('service', services)
     return services
 }
-
+const Sequelize = require('sequelize')
 function loadConfig(app) {
     load('config', (filename, conf) => {
         if (conf.db) {
@@ -66,7 +63,6 @@ function loadConfig(app) {
             // 加载模型
             app.$model = {}
             load('model', (filename, { schema, options }) => {
-                console.log('model', filename)
                 app.$model[filename] = app.$db.define(filename, schema, options)
             })
             app.$db.sync()
@@ -80,13 +76,13 @@ function loadConfig(app) {
         }
     })
 }
-
 const schedule = require('node-schedule')
 function initSchedule() {
-    load('schedule', (filename, { interval, handler }) => {
-        schedule.scheduleJob(interval, handler)
-    })
-}
+    // 读取控制器目录
+    load("schedule", (filename, scheduleConfig) => {
+      schedule.scheduleJob(scheduleConfig.interval, scheduleConfig.handler);
+    });
+  }
 
 
 module.exports = { initRouter, initController, initService, loadConfig,initSchedule }

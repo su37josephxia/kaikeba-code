@@ -1,16 +1,14 @@
-const { resolve } = require('path')
-
-const delay = (data, tick)=> new Promise(resolve=>{
-    setTimeout(()=>{
+const delay = (data, tick) => new Promise(resolve => {
+    setTimeout(() => {
         resolve(data)
-    },tick)
+    }, tick)
 })
-module.exports = app => ({
+
+module.exports = {
     getName() {
-        // return delay('jerry',1000)
-        return app.$model.user.findAll()
+        return delay('jerry', 1000)
     },
-    getAge(){
+    getAge() {
         return 20
     }
-})
+}
