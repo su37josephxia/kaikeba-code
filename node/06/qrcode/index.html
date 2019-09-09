@@ -1,0 +1,41 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+
+<head>
+	<title>扫码登录</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+	<script type="text/javascript" src="http://static.runoob.com/assets/jquery/2.0.3/jquery.min.js"></script>
+	<script type="text/javascript" src="http://static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+	<script src="http://libs.baidu.com/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<h2 id='messages' ></div>
+	<div id="qrcode" style="width:100px; height:100px;"></div>
+
+	<script type="text/javascript">
+		var qrcode = new QRCode(document.getElementById("qrcode"), {
+			width: 300,
+			height: 300
+		});
+
+
+		$(function () {
+			var socket = io();
+
+			socket.on("qrcode", function (msg) {
+				console.log(msg)
+				qrcode.makeCode(msg);
+			});
+			socket.on("success", function (msg) {
+				$("#messages").append($("<li>").text(msg));
+				$('#qrcode').hide()
+			});
+		});
+	</script>
+</body>
+
+</html>
