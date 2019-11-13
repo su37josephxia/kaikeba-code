@@ -8,6 +8,7 @@ app.use(bodyParser())
 const router = require('koa-router')();
 const views = require('koa-views');
 const query = require('./db')
+const encryptPassword = require('./password')
 app.keys = ['some secret hurr'];
 const CONFIG = {
     key: 'kaikeba:sess',
@@ -61,7 +62,7 @@ router.get('/', async (ctx) => {
         from: ctx.query.from,
         username: ctx.session.username,
         // text: res[0].text,
-        text:'abc'
+        text: 'abc'
     });
 });
 
@@ -69,7 +70,6 @@ router.get('/login', async (ctx) => {
     await ctx.render('login');
 });
 
-const encryptPassword = require('./password')
 router.post('/login', async (ctx) => {
 
     const { username, password } = ctx.request.body
@@ -81,16 +81,17 @@ router.post('/login', async (ctx) => {
     WHERE username = ? 
     -- AND password = ?
     `
-    console.log('sql', sql)
-    res = await query(sql, [ctx.request.body.username, ctx.request.body.password])
-    console.log('db', res)
+    // console.log('sql', sql)
+    res = await query(sql, [ctx.request.body.username])
+    // console.log('db', res)
     // if (res.length !== 0) {
     //     ctx.redirect('/?from=china')
     //     ctx.session.username = ctx.request.body.username
     // }
 
     if (res.length !== 0 && res[0].salt === null) {
-        console.log('no salt ..')
+        // 密码未加密
+        console.log('no salt ...')
         if (password === res[0].password) {
             sql = `
                 update test.user
@@ -98,7 +99,7 @@ router.post('/login', async (ctx) => {
                 password = ?
                 where username = ?
             `
-            const salt = Math.random() * 99999 + new Date().getTime()
+            const salt = Math.random() * 999999 + new Date().getTime()
             res = await query(sql, [salt, encryptPassword(salt, password), username])
             ctx.session.username = ctx.request.body.username
             ctx.redirect('/?from=china')
@@ -106,10 +107,11 @@ router.post('/login', async (ctx) => {
     } else {
         console.log('has salt')
         if (encryptPassword(res[0].salt, password) === res[0].password) {
-            ctx.session.username = ctx.request.body.username
+            ctx.session.usename = ctx.request.body.usename
             ctx.redirect('/?from=china')
         }
     }
+
 });
 
 router.post('/updateText', async (ctx) => {

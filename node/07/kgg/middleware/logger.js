@@ -4,6 +4,6 @@ module.exports = async (ctx, next) => {
     await next();
     const duration = new Date() - start;
     console.log(
-      ctx.method + " " + ctx.path + " " + ctx.status + " " + duration + "ms"
+        ctx.method + " " + ctx.path + " " + ctx.status + " " + duration + "ms"
     );
-  };
+};
