@@ -1,6 +1,17 @@
 #!/usr/bin/env node
 const program = require('commander')
-program.version(require('../package').version, '-v', '--version')
-    .command('init <name>', 'init project')
-    .command('refresh','refresh routers...')
+const {
+    init,
+    refresh
+} = require('../lib/api')
+program.version(require('../package').version)
+
+program
+    .command('init <name>')
+    .description('init project')
+    .action(init)
+program
+    .command('refresh')
+    .description('refresh routers...')
+    .action(refresh)
 program.parse(process.argv)
