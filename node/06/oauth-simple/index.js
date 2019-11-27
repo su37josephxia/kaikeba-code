@@ -20,7 +20,7 @@ router.get('/github/login', async (ctx) => {
     //转发到授权服务器
     ctx.redirect(path);
 })
-router.get('/github/callback', async (ctx) => {
+router.get('/auth/github/callback', async (ctx) => {
     console.log('callback..')
     const code = ctx.query.code;
     const params = {
@@ -41,4 +41,4 @@ router.get('/github/callback', async (ctx) => {
 
 app.use(router.routes()); /*启动路由*/
 app.use(router.allowedMethods());
-app.listen(3000);
+app.listen(7001);
