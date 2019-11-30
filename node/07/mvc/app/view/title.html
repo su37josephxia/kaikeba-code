@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h2>新闻列表</h2>
+    <ul>
+        <% for(var i = 0;i<list.length;i++) {%>
+        <li>
+            <a href="/content?aid=<%=list[i].aid%>"><%=list[i].title%>---<%= helper.formatDate(list[i].dateline)%></a>
+        </li>
+        <%}%>
+    </ul>
+</body>
+</html>
