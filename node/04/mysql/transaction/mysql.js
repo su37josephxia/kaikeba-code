@@ -1,39 +1,55 @@
-var mysql = require('mysql');
+// mysql2.js
+(async () => {
+  // get the client
+  const mysql = require('mysql2/promise');
+  // 连接配置
+  const cfg = {
+    host: "localhost",
+    user: "root",
+    password: "example", // 修改为你的密码
+    database: "test", // 请确保数据库存在
+    connectionLimit: 5,
+    // debug:true
+  }
 
-var transaction = require('node-mysql-transaction');
-var trCon = transaction({
-    // mysql driver set 
-    connection: [mysql.createConnection, {
-        // mysql connection config
-        host: "localhost",
-        user: "root",
-        password: "example", // 修改为你的密码
-        database: "kaikeba" // 请确保数据库存在
-    }],
-    // create temporary connection for increased volume of async work.
-    // if request queue became empty, 
-    // start soft removing process of the connection.
-    // recommended for normal usage.
-    dynamicConnection: 32,
-    // set dynamicConnection soft removing time.
-    idleConnectionCutoffTime: 1000,
-    // auto timeout rollback time in ms
-    // turn off is 0
-    timeout: 600
-});
+  // 设置连接池
+  const pool = await mysql.createPool(cfg)
+  const conn = await pool.getConnection()
 
-var chain = trCon.chain();
+  const conn2 = await pool.getConnection()
+  const delay = (tick)=> new Promise(resolve=>{
+    setTimeout(()=>{
+        resolve()
+    },tick)
+})
+  // 开启事务
+  await conn.beginTransaction()
+  try {
+    await conn.query(`
+      SELECT (1) FROM account 
+      WHERE id = 1
+      FOR UPDATE ;
+    `)
+    console.log('delay')
+    await delay(1000)
 
-chain.
-on('commit', function(){
-  console.log('number commit');
-}).
-on('rollback', function(err){
-  console.log(err);
-});
+    conn2.query(`UPDATE account set amount = 5 WHERE id = 1;`)
+    // conn2.query(`SELECT * FROM account WHERE id = 1;`)
+    .then(result => {
+      console.log('select2:')
+    })
 
-chain
-.query('SELECT * FROM test WHERE message = ? FOR UPDATE','a')
-.query('INSERT INTO test(message) VALUES(?)','a')
-.query('INSERT INTO test(message) VALUES(?)','b');
+    await delay(1000)
+    await conn.query(`
+      UPDATE account set amount = amount - 3 WHERE id = 1; 
+    `)
+    await conn.commit()
+    console.log('update')
+  } catch (error) {
+    await conn.rollback()
+  } finally {
+    conn.release()
+  }
+
+})()
 
