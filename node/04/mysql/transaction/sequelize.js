@@ -19,9 +19,9 @@
     });
 
     // 同步数据库，force: true则会删除已存在表
-    let ret = await Fruit.sync({ force: true })
+    let ret = await Account.sync({ force: true })
     console.log('sync', ret)
-    const tx = await sequelize.transation(
+    const tx = await sequelize.transaction(
         {
             autocommit: false,
             isolationLevel: 'SERIALIZABLE'
@@ -34,16 +34,17 @@
     })
 
     ret = await Account.findAll({
-        where: { id: 1 }
+        where: { id: 1 },
+        transation: tx,
+        lock: Sequelize.Transaction.LOCK.UPDATE
+
     })
 
     ret = await Account.update({
         amount: 3
     }, {
-        transation: tx
+        where: { id: 1 },
+        transation: tx,
     })
-
-
-
 })()
 
