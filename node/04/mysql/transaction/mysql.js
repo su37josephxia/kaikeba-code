@@ -1,4 +1,3 @@
-// mysql2.js
 (async () => {
   // get the client
   const mysql = require('mysql2/promise');
@@ -13,43 +12,51 @@
   }
 
   // 设置连接池
-  const pool = await mysql.createPool(cfg)
-  const conn = await pool.getConnection()
+  // const pool = await mysql.createPool(cfg)
+  // const conn = await pool.getConnection()
 
-  const conn2 = await pool.getConnection()
-  const delay = (tick)=> new Promise(resolve=>{
-    setTimeout(()=>{
-        resolve()
-    },tick)
-})
-  // 开启事务
-  await conn.beginTransaction()
-  try {
+  const delay = (tick) => new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, tick)
+  })
+
+  // await conn.query(`
+  //   CREATE TABLE IF NOT EXISTS account (
+  //     id INT NOT NULL AUTO_INCREMENT,
+  //     amount INT NULL,
+  //     PRIMARY KEY (id));
+  // `)
+
+  const doTransation = (isAutoCommit,sleep) => async () => {
+    const pool = await mysql.createPool(cfg)
+    const conn = await pool.getConnection()
+
+    // 开启事务
+    isAutoCommit && await conn.beginTransaction()
     await conn.query(`
       SELECT (1) FROM account 
-      WHERE id = 1
+      -- WHERE id = 1
       FOR UPDATE ;
     `)
-    console.log('delay')
-    await delay(1000)
+    console.log('SELECT ACCOUNT '+ sleep)
 
-    conn2.query(`UPDATE account set amount = 5 WHERE id = 1;`)
-    // conn2.query(`SELECT * FROM account WHERE id = 1;`)
-    .then(result => {
-      console.log('select2:')
-    })
+    await delay(sleep)
 
-    await delay(1000)
-    await conn.query(`
+    const res = await conn.query(`
       UPDATE account set amount = amount - 3 WHERE id = 1; 
     `)
-    await conn.commit()
-    console.log('update')
-  } catch (error) {
-    await conn.rollback()
-  } finally {
+    console.log('UPDATE ACCOUNT '+ sleep)
+
+    isAutoCommit && await conn.commit()
     conn.release()
   }
+  
+  const isCommit = false
+  doTransation(isCommit,4000)()
+  await delay(500)
+  doTransation(isCommit,2000)()
+  await delay(500)
+  doTransation(isCommit,0)()
 
 })()
-
