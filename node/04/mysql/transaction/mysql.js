@@ -52,7 +52,7 @@
     conn.release()
   }
   
-  const isCommit = false
+  const isCommit = true
   doTransation(isCommit,4000)()
   await delay(500)
   doTransation(isCommit,2000)()

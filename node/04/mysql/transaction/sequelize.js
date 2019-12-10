@@ -11,7 +11,7 @@
             min: 0,
             idle: 30000
         },
-        logging: false, // 是否需要打印日志
+        // logging: false, // 是否需要打印日志
     });
     const delay = (tick) => new Promise(resolve => {
         setTimeout(() => {
@@ -32,18 +32,20 @@
         amount: 5
     })
 
-    const doTransation = (isAutoCommit,sleep) => async () => {
+    const doTransation = (isAutoCommit, sleep) => async () => {
         const tx = isAutoCommit ? await sequelize.transaction(
             {
-                autocommit: false,
-                isolationLevel: 'SERIALIZABLE'
+                autoCommit: false,
+                // isolationLevel: 'SERIALIZABLE'
             }
         ) : null
 
         ret = await Account.findAll({
-            where: { id: 1 },
+            // where: { id: 1 },
             transation: tx,
-            lock: Sequelize.Transaction.LOCK.UPDATE
+            // lock: Sequelize.Transaction.LOCK.UPDATE
+            lock: true,
+ 
         })
         console.log('SELECT LOCK ' + sleep)
 
@@ -55,17 +57,17 @@
             where: { id: 1 },
             transation: tx,
         })
-        console.log('UPDATE ' + sleep,ret)
+        console.log('UPDATE ' + sleep, ret)
 
         // tx.commit()
 
     }
-
-    doTransation(true,4000)()
+    const isCommit = true
+    doTransation(isCommit, 4000)()
     await delay(500)
-    doTransation(true,2000)()
+    doTransation(isCommit, 2000)()
     await delay(500)
-    doTransation(true,0)()
+    doTransation(isCommit, 0)()
 
 })()
 
