@@ -11,5 +11,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "watch": "^1.0.2"
+  }
 }
