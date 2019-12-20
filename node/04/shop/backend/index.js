@@ -118,7 +118,31 @@ router.delete('/cartItem/:id', async ctx => {
     ctx.body = { success: true }
 })
 router.get('/orders', async ctx => {
-    const orders = await ctx.user.getOrders({ include: ['products'], order: [['id', 'DESC']] })
+    const orders = await ctx.user.getOrders(
+        {
+            include: [
+                // 简单外联
+                'products'
+                // 复杂外联举例
+                // {
+                //     model: Product,
+                //     as: 'products',
+                //     attributes: [
+                //         'id',
+                //         'title'
+                //     ],
+                //     where: {
+                //         'title': 'A'
+                //     }
+                // }
+            ],
+
+            order: [
+                // ['id', 'DESC']
+                ['createdAt', 'DESC']
+
+            ]
+        })
     ctx.body = { orders }
 })
 
