@@ -1,8 +1,7 @@
-var http = require('http');
-setInterval(async () => {
-    try {
-        await http.get('http://localhost:3000');
-        console.log('go')
-    } catch (error) {
-    }
-}, 1000)
+var request = require('request');
+setInterval(() => {
+    request('http://localhost:3000', function (error, response, body) {
+        console.log('body:', body); // Print the HTML for the Google homepage.
+    })
+}, 1000
+)
