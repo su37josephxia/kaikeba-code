@@ -11,6 +11,7 @@ program
     .command('init <name>')
     .description('init project')
     .action(init)
+    
 program
     .command('serve')
     .description('serve project')
@@ -20,4 +21,5 @@ program
     .command('refresh')
     .description('refresh routers...')
     .action(refresh)
+
 program.parse(process.argv)
