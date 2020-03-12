@@ -1,21 +1,26 @@
 {
   "name": "vue-auto-router-cli",
-  "version": "1.0.4",
+  "version": "1.0.19",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "kkb": "./bin/kkb.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "bin": {
-    "kkb": "./bin/kkb"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^3.0.0",
     "clear": "^0.1.0",
+    "commander": "^4.1.1",
+    "download-git-repo": "^3.0.2",
     "figlet": "^1.3.0",
+    "handlebars": "^4.7.3",
     "open": "^7.0.3",
+    "ora": "^4.0.3",
     "watch": "^1.0.2"
   }
 }
