@@ -1,0 +1,11 @@
+{
+  "name": "react-console",
+  "dependencies": {},
+  "globalDevDependencies": {
+    "react": "registry:dt/react#0.14.0+20160630100702",
+    "react-dom": "registry:dt/react-dom#0.14.0+20160412154040"
+  },
+  "globalDependencies": {
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20161116080703"
+  }
+}
