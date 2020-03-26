@@ -10,8 +10,12 @@ module.exports = {
         }
     },
 
-    async get(ctx) {
+    async list(ctx) {
         ctx.body = await ctx.list.find({})
+
+    },
+    async get(ctx) {
+        ctx.body = await ctx.list.findOne({ _id: ctx.params.id })
 
     },
     async create(ctx) {
@@ -31,3 +35,4 @@ module.exports = {
         ctx.body = await ctx.list.find({})/*  */
     },
 }
+

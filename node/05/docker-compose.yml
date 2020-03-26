@@ -10,21 +10,4 @@ services:
     restart: always
     ports:
       - 8081:8081
-  mysql:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-    ports:
-      - 3306:3306
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-  redis:
-    image: redis
-    ports:
-      - "6379:6379" 
   
