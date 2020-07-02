@@ -7,7 +7,8 @@ const syncSpawn = (...args) => {
 
         options.cmd = options.cwd
         delete options.cwd
-
+        // 设置 shell 选项为 true 以隐式地调用 cmd 
+        options.shell = true
     }else {
         console.log('Linux/Unix')
     }
