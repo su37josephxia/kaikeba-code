@@ -5,8 +5,8 @@ const syncSpawn = (...args) => {
     if(process.platform === 'win32'){
         console.log('win32')
 
-        options.cmd = options.cwd
-        delete options.cwd
+        // options.cmd = options.cwd
+        // delete options.cwd
         // 设置 shell 选项为 true 以隐式地调用 cmd 
         options.shell = true
     }else {

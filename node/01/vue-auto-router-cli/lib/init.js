@@ -5,6 +5,14 @@ const chalk = require('chalk')
 const { clone } = require('./download')
 const spawn = async (...args) => {
     const { spawn } = require('child_process')
+    const options = args[args.length - 1]
+    if(process.platform === 'win32'){
+        // 设置 shell 选项为 true 以隐式地调用 cmd 
+        options.shell = true
+    }else {
+        // nothing
+    }
+
     return new Promise(resolve => {
         const proc = spawn(...args)
         proc.stdout.pipe(process.stdout)
@@ -25,7 +33,7 @@ module.exports = async name => {
     // 克隆代码
     await clone('github:su37josephxia/vue-template', name)
     log('安装依赖')
-    await spawn('cnpm', ['install'], { cwd: `./${name}` })
+    await spawn('npm', ['install'], { cwd: `./${name}` })
     log(`
 👌安装完成：
 To get Start:
