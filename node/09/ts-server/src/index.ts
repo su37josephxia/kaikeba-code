@@ -25,8 +25,12 @@ const database = new Sequelize({
     username:'root',
     password:'example',
     dialect:'mysql',
-    modelPaths: [`${__dirname}/model`],    
+    modelPaths: [`${__dirname}/model`],
+
 });
+
+database.sync({force: true})
+
 
 const router = load(resolve(__dirname, './routes'));
 

@@ -33,9 +33,9 @@ export default class User {
         age: { type: 'int', required: false, max: 200, convertType: 'int' },
     })
     public async list(ctx: Koa.Context) {
-        ctx.body = { ok: 1, data: users }
-        // const users = await model.findAll()
-        // ctx.body = { ok: 1, data: users };
+        // ctx.body = { ok: 1, data: users }
+        const users = await model.findAll()
+        ctx.body = { ok: 1, data: users };
     }
 
     @post('/users', {

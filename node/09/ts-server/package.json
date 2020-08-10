@@ -14,7 +14,8 @@
   "devDependencies": {
     "ts-node-dev": "^1.0.0-pre.40",
     "tslint": "^5.18.0",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "@types/sequelize": "^4.28.9"
   },
   "dependencies": {
     "koa": "^2.7.0",
