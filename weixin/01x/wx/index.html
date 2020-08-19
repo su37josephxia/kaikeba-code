@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/qs/6.9.4/qs.js"></script>
+    <style>
+        /* .cube-btn {
+            margin: 10px 0;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button @click='getToken'>getToken</button>
+        <button @click='getFollowers'>getFollowers</button>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            methods: {
+                async getToken() {
+                    const res = await axios.get('/getTokens')
+                    console.log('res',res)
+                },
+                async getFollowers () {
+                    const res = await axios.get('/getFollowers')
+                    console.log('res',res)
+                }
+            },
+            
+            mounted: function () {
+
+            },
+        });
+    </script>
+</body>
+
+</html>
