@@ -8,22 +8,19 @@ function load(dir, cb) {
     files.forEach(filename => {
         filename = filename.replace('.js', '')
         const file = require(url + '/' + filename)
+        // 处理
         cb(filename, file)
     })
 }
 
 const loadModel = config => app => {
     mongoose.connect(config.db.url, config.db.options)
-
     const conn = mongoose.connection
-    conn.on('error', () => console.error('连接数据库失败'))
-
     app.$model = {}
-    load('../model', (filename, { schema }) => {
-        console.log('load model:' + filename, schema)
-        app.$model[filename] = mongoose.model(filename, schema)
+    load('../model',(filename,{schema}) => {
+        console.log('load model：' + filename, schema)
+        app.$model[filename] = mongoose.model(filename,schema)
     })
-
 }
 
 module.exports = {

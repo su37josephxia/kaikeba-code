@@ -8,27 +8,41 @@ app.get("/", (req, res) => {
     res.sendFile(path.resolve("./index.html"))
 })
 
-app.get("/api/list", async (req, res) => {
+app.get('/api/list', async (req, res) => {
     // 分页查询
-    const { page} = req.query
-    try {
-        const col = mongo.col("fruits")
-        const total = await col.find().count()
-        const fruits = await col
-            .find()
-            .skip((page - 1) * 5)
-            .limit(5)
-            .toArray()
-        res.json({ ok: 1, data: { fruits, pagination: { total, page } } })
-    } catch (error) {
-        console.log(error)
+    const { page, category, keyword } = req.query
+    // 构造条件
+    const condition = {}
+    if (category) {
+        condition.category = category
     }
+    if (keyword) {
+        condition.name = { $regex: new RegExp(keyword) }
+    }
+
+    const col = mongo.col('fruits')
+    const total = await col.find(condition).count()
+    const fruits = await col
+        .find(condition)
+        .skip((page - 1) * 10)
+        .limit(10)
+        .toArray()
+    res.json({
+        ok: 1, data: {
+            fruits,
+            pagination: {
+                total, page
+            }
+        }
+    })
 })
 
-app.get("/api/category", async (req, res) => {
-    const col = mongo.col("fruits")
+app.get('/api/category', async (req, res) => {
+    const col = mongo.col('fruits')
     const data = await col.distinct('category')
     res.json({ ok: 1, data })
 })
 
-app.listen(3000)
+app.listen(3000, () => {
+    console.log('server listen 3000')
+})
