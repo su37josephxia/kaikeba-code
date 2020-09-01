@@ -43,7 +43,7 @@
     "ora": "^3.4.0",
     "parameter": "^3.6.0",
     "redis": "^2.8.0",
-    "sequelize": "^5.21.2",
+    "sequelize": "^5.22.3",
     "socket.io": "^2.2.0",
     "superagent": "^5.1.0",
     "trek-captcha": "^0.4.0"
