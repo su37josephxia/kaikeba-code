@@ -20,10 +20,9 @@ app.use((ctx, next) => {
     if (ctx.url.indexOf('login') > -1) {
         next()
     } else {
-        console.log('session', ctx.session.userinfo)
         if (!ctx.session.userinfo) {
             ctx.body = {
-                message: "登录失败"
+                message: '登陆失败'
             }
         } else {
             next()
@@ -31,31 +30,29 @@ app.use((ctx, next) => {
     }
 })
 
-router.post('/login', async (ctx) => {
-    const {
-        body
-    } = ctx.request
-    console.log('body',body)
-    //设置session
-    ctx.session.userinfo = body.username;
+router.post('/users/login', async (ctx) => {
+    const { body } = ctx.request
+    // 数据库匹配
+    //
+    ctx.session.userinfo = body.username
     ctx.body = {
-        message: "登录成功"
+        message: '登陆成功'
     }
 })
-router.post('/logout', async (ctx) => {
-    //设置session
+
+router.post('/users/logout',async ctx => {
     delete ctx.session.userinfo
-    ctx.body = {
-        message: "登出系统"
+    ctx.body ={
+        message: '退出成功'
     }
 })
-router.get('/getUser', async (ctx) => {
+
+router.get('/users/getUser',async ctx => {
     ctx.body = {
-        message: "获取数据成功",
+        message: '获取数据成功',
         userinfo: ctx.session.userinfo
     }
 })
 
-app.use(router.routes());
-app.use(router.allowedMethods());
-app.listen(3000);
+app.use(router.routes())
+app.listen(3000)

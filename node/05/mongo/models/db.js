@@ -1,28 +1,31 @@
 const conf = require('./conf')
 const { EventEmitter } = require('events')
 
-// 客户端
-const { MongoClient } = require('mongodb')
+const {MongoClient} = require('mongodb')
 
 class Mongodb {
-    constructor(conf) {
+
+    constructor() {
+        
         this.conf = conf
+
         this.emmiter = new EventEmitter()
-        this.client = new MongoClient(conf.url, {
-            useNewUrlParser: true
-        })
+        // 数据库连接
+        this.client = new MongoClient(conf.url,{useNewUrlParser: true})
         this.client.connect(err => {
-            if (err) throw err
+            if(err) throw err
             console.log('连接成功')
             this.emmiter.emit('connect')
         })
 
-        
     }
-    col(colName, dbName = conf.dbName){
+
+    // col('abc') => abc集合
+    col(colName,dbName = conf.dbName){
         return this.client.db(dbName).collection(colName)
     }
-    once(event,cb){
+
+    once(event ,cb){
         this.emmiter.once(event,cb)
     }
 }

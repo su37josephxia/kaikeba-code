@@ -1,11 +1,23 @@
-const fs = require('fs')
+// (async () => {
+//     const fs = require('fs')
+//     const { promisify } = require('util')
+//     const readFile = promisify(fs.readFile)
+//     const data = await readFile('./conf.js')
+//     console.log(data.toString())
+// })()
 
-// 同步
-// const data = fs.readFileSync('./download.js')
-// console.log(data,data.toString())
+// process.nextTick(async () => {
+// })
 
-// 异步方式
-fs.readFile('./download.js',(err,data) => {
-    if(err) throw err
-    console.log(data)
-})
+
+// 同步读取
+// const data = fs.readFileSync('./conf.js')
+// console.log('data', data.toString())
+
+// fs.readFile('./conf.js', (err, data) => {
+//     if (err) throw err
+//     console.log('data', data.toString())
+// })
+
+
+

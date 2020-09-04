@@ -1,8 +1,10 @@
+// index.html
 <html>
 
 <head>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.19.2/axios.js"></script>
+
 </head>
 
 <body>
@@ -39,20 +41,19 @@
       },
       methods: {
         async login() {
-          await axios.post('/login', {
+          await axios.post('/users/login', {
             username: this.username,
             password: this.password
           })
         },
         async logout() {
-          await axios.post('/logout')
+          await axios.post('/users/logout')
         },
         async getUser() {
-          await axios.get('/getUser')
+          await axios.get('/users/getUser')
         }
       }
     });
   </script>
 </body>
-
 </html>

@@ -20,7 +20,7 @@ const CONFIG = {
     /** (boolean) automatically commit headers (default true) */
     overwrite: false,
     /** (boolean) can overwrite or not (default true) */
-    httpOnly: false,
+    httpOnly: true,
     /** (boolean) httpOnly or not (default true) */
     signed: false,
     /** (boolean) signed or not (default true) */
@@ -45,13 +45,12 @@ app.use(async (ctx, next) => {
     // const referer = ctx.request.header.referer
     // console.log('Referer:', referer)
 
-    // const referer = ctx.request.header.referer
-    // console.log('Referer:', referer)
+    const referer = ctx.request.header.referer
+    console.log('Referer:', referer)
 
 })
 // const helmet = require('koa-helmet')
 // app.use(helmet())
-
 
 router.get('/', async (ctx) => {
     res = await query('select * from test.text')
@@ -62,7 +61,6 @@ router.get('/', async (ctx) => {
         text: res[0].text,
     });
 });
-
 
 
 router.get('/login', async (ctx) => {
@@ -78,11 +76,11 @@ router.post('/login', async (ctx) => {
     let sql = `
     SELECT *
     FROM test.user
-    WHERE username = '${username}'
-    AND password = '${password}'
+    WHERE username = ?
+    AND password = ?
     `
     console.log('sql', sql)
-    res = await query(sql)
+    res = await query(sql,[username,password])
     console.log('db', res)
     if (res.length !== 0) {
         ctx.redirect('/?from=china')

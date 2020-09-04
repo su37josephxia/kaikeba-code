@@ -1,5 +1,3 @@
-// jsonwebtoken.js
-
 const jsonwebtoken = require('jsonwebtoken')
 const secret = '12345678'
 const opt = {
@@ -7,8 +5,7 @@ const opt = {
   key: 'user'
 }
 const user = {
-  username: 'abc',
-  password: '111111'
+  uid:123
 }
 
 const token = jsonwebtoken.sign({
@@ -18,8 +15,7 @@ const token = jsonwebtoken.sign({
 }, secret)
 
 console.log('生成token:' + token)
-// 生成token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWJjIiwicGFzc3dvcmQiOiIxMTExMTEifSwiZXhwIjoxNTQ2OTQyMzk1LCJpYXQiOjE1NDY5Mzg3OTV9.VPBCQgLB7XPBq3RdHK9WQMkPp3dw65JzEKm_LZZjP9Y
-console.log('解码:', jsonwebtoken.verify(token, secret, opt))
-// 解码: { data: { username: 'abc', password: '111111' },
-//  exp: 1546942395,
-//  iat: 1546938795 }
+// 生成token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWJjIiwicGFzc3dvcmQiOiIxMTExMTEifSwiZXhwIjoxNTQ2OTQyMzk1LCJpYXQiOjE1NDY5Mzg3OTV9.VPBCQgLB7XPBq3RdHK9WQMkPp3dw65JzEKm_LZZjP9Y=
+const jt = `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoiYWJjIiwicGFzc3dvcmQiOiIxMTExMTEifSwiZXhwIjoxNTQ2OTQyMzk1LCJpYXQiOjE1NDY5Mzg3OTV9.VPBCQgLB7XPBq3RdHK9WQMkPp3dw65JzEKm_LZZjP9123`
+
+console.log('解码:', jsonwebtoken.verify(jt, secret, opt))

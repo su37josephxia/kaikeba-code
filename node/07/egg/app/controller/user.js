@@ -1,12 +1,14 @@
-const Controller = require('egg').Controller
+const {Controller} = require('egg')
+
 class UserController extends Controller {
     async index() {
         // this.ctx.body = [
-        //     { name: 'tom' }
+        //     {
+        //         name : 'user'
+        //     }
         // ]
-        const { ctx } = this
+        const {ctx} = this
         ctx.body = await ctx.service.user.getAll()
     }
-
 }
 module.exports = UserController
