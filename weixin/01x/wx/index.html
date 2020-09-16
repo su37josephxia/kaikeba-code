@@ -16,24 +16,20 @@
 <body>
     <div id="app">
         <button @click='getToken'>getToken</button>
-        <button @click='getFollowers'>getFollowers</button>
+        <button @click='getFollower'>getFollower</button>
     </div>
     <script>
         var app = new Vue({
             el: '#app',
             methods: {
                 async getToken() {
-                    const res = await axios.get('/getTokens')
-                    console.log('res',res)
+                    const res = await axios.get('/getToken')
+                    console.log('res', res)
                 },
-                async getFollowers () {
+                async getFollower() {
                     const res = await axios.get('/getFollowers')
-                    console.log('res',res)
+                    console.log('res', res)
                 }
-            },
-            
-            mounted: function () {
-
             },
         });
     </script>

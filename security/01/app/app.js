@@ -20,7 +20,7 @@ const CONFIG = {
     /** (boolean) automatically commit headers (default true) */
     overwrite: false,
     /** (boolean) can overwrite or not (default true) */
-    httpOnly: true,
+    httpOnly: false,
     /** (boolean) httpOnly or not (default true) */
     signed: false,
     /** (boolean) signed or not (default true) */
@@ -34,6 +34,7 @@ app.use(session(CONFIG, app));
 app.use(views(__dirname + '/views', {
     extension: 'ejs'
 }));
+
 
 
 app.use(async (ctx, next) => {
@@ -51,6 +52,8 @@ app.use(async (ctx, next) => {
 })
 // const helmet = require('koa-helmet')
 // app.use(helmet())
+const xss = require('xss')
+const html = xss(`<h1>XSS DEMO</h1><script>alert(1)</script>`)
 
 router.get('/', async (ctx) => {
     res = await query('select * from test.text')
@@ -60,8 +63,20 @@ router.get('/', async (ctx) => {
         username: ctx.session.username,
         text: res[0].text,
     });
+
 });
 
+
+function escape(str) {
+    str = str.replace(/&/g, '&amp;')
+    str = str.replace(/</g, '&lt;')
+    str = str.replace(/>/g, '&gt;')
+    str = str.replace(/"/g, '&quto;')
+    str = str.replace(/'/g, '&#39;')
+    str = str.replace(/`/g, '&#96;')
+    str = str.replace(/\//g, '&#x2F;')
+    return str
+}
 
 router.get('/login', async (ctx) => {
     await ctx.render('login');
@@ -73,14 +88,14 @@ router.post('/login', async (ctx) => {
     const { username, password } = ctx.request.body
 
     // 可注入写法
-    let sql = `
+    const sql = `
     SELECT *
     FROM test.user
-    WHERE username = ?
+    WHERE username = ? 
     AND password = ?
     `
     console.log('sql', sql)
-    res = await query(sql,[username,password])
+    res = await query(sql, [username, password])
     console.log('db', res)
     if (res.length !== 0) {
         ctx.redirect('/?from=china')

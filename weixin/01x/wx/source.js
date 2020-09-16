@@ -29,20 +29,23 @@ router.get('/wechat', ctx => {
     console.log('wechat', query)
 
     // 将 token timestamp nonce 三个参数进行字典序排序并用sha1加密
-    let str = [conf.token, timestamp, nonce].sort().join('');
-    console.log('str', str)
-    let strSha1 = crypto.createHash('sha1').update(str).digest('hex'); // hash
 
-    console.log(`自己加密后的字符串为：${strSha1}`);
-    console.log(`微信传入的加密字符串为：${signature}`);
-    console.log(`两者比较结果为：${signature == strSha1}`);
 
-    // 签名对比，相同则按照微信要求返回echostr参数值
-    if (signature == strSha1) {
-        ctx.body = echostr
-    } else {
-        ctx.body = "你不是微信"
-    }
+    // let str = [conf.token, timestamp, nonce].sort().join('');
+    // console.log('str', str)
+    // let strSha1 = crypto.createHash('sha1').update(str).digest('hex');
+
+    // console.log(`自己加密后的字符串为：${strSha1}`);
+    // console.log(`微信传入的加密字符串为：${signature}`);
+    // console.log(`两者比较结果为：${signature == strSha1}`);
+
+    // // 签名对比，相同则按照微信要求返回echostr参数值
+    // if (signature == strSha1) {
+    //     ctx.body = echostr
+    // } else {
+    //     ctx.body = "你不是微信"
+    // }
+    ctx.body = echostr
 })
 
 // 接受信息
