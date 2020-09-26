@@ -43,9 +43,7 @@ class KKB {
                     return Promise.resolve()
                 }
                 return Promise.resolve(
-                    fn(ctx, function next() {
-                        return dispatch(i + 1)
-                    })
+                    fn(ctx, () => dispatch(i + 1))
                 )
             }
         }
