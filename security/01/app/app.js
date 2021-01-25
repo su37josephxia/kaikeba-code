@@ -9,6 +9,7 @@ const router = require('koa-router')();
 const views = require('koa-views');
 const query = require('./db')
 app.keys = ['some secret hurr'];
+
 const CONFIG = {
     key: 'kaikeba:sess',
     /** (string) cookie key (default is koa:sess) */
@@ -20,7 +21,7 @@ const CONFIG = {
     /** (boolean) automatically commit headers (default true) */
     overwrite: false,
     /** (boolean) can overwrite or not (default true) */
-    httpOnly: false,
+    httpOnly: true,
     /** (boolean) httpOnly or not (default true) */
     signed: false,
     /** (boolean) signed or not (default true) */
@@ -41,9 +42,9 @@ app.use(async (ctx, next) => {
     // 参数出现在HTML内容或属性浏览器会拦截
     ctx.set('X-XSS-Protection', 0)
     // ctx.set('Content-Security-Policy', "default-src 'self'")
-    ctx.set('X-FRAME-OPTIONS', 'DENY')
-    // const referer = ctx.request.header.referer
-    // console.log('Referer:', referer)
+    // ctx.set('X-FRAME-OPTIONS', 'DENY')
+    const referer = ctx.request.header.referer
+    console.log('Referer:', referer)
 
     // const referer = ctx.request.header.referer
     // console.log('Referer:', referer)
@@ -51,18 +52,25 @@ app.use(async (ctx, next) => {
 })
 // const helmet = require('koa-helmet')
 // app.use(helmet())
-
-
 router.get('/', async (ctx) => {
     res = await query('select * from test.text')
-    // ctx.set('X-FRAME-OPTIONS', 'DENY')
+    ctx.set('X-FRAME-OPTIONS', 'DENY')
     await ctx.render('index', {
         from: ctx.query.from,
         username: ctx.session.username,
         text: res[0].text,
     });
 });
-
+// function escape(str) {
+//     str = str.replace(/&/g, '&amp;')
+//     str = str.replace(/</g, '&lt;')
+//     str = str.replace(/>/g, '&gt;')
+//     str = str.replace(/"/g, '&quto;')
+//     str = str.replace(/'/g, '&#39;')
+//     str = str.replace(/`/g, '&#96;')
+//     str = str.replace(/\//g, '&#x2F;')
+//     return str
+//   }
 
 
 router.get('/login', async (ctx) => {
@@ -78,11 +86,11 @@ router.post('/login', async (ctx) => {
     let sql = `
     SELECT *
     FROM test.user
-    WHERE username = '${username}'
-    AND password = '${password}'
+    WHERE username = ?
+    AND password = ?
     `
     console.log('sql', sql)
-    res = await query(sql)
+    res = await query(sql,[username,password])
     console.log('db', res)
     if (res.length !== 0) {
         ctx.redirect('/?from=china')

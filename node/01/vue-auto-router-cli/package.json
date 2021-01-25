@@ -1,6 +1,6 @@
 {
   "name": "vue-auto-router-cli",
-  "version": "1.0.19",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "bin": {
@@ -13,14 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^3.0.0",
+    "chalk": "^4.1.0",
     "clear": "^0.1.0",
-    "commander": "^4.1.1",
+    "commander": "^7.0.0",
     "download-git-repo": "^3.0.2",
-    "figlet": "^1.3.0",
-    "handlebars": "^4.7.3",
-    "open": "^7.0.3",
-    "ora": "^4.0.3",
-    "watch": "^1.0.2"
+    "figlet": "^1.5.0",
+    "handlebars": "^4.7.6",
+    "open": "^7.3.1",
+    "ora": "^5.3.0"
   }
 }
