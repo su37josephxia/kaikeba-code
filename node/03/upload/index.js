@@ -37,8 +37,8 @@ const server = http.createServer((request, response) => {
         // })
 
 
-        request.pipe(fis)
-        response.end()
+        // request.pipe(fis) // 异步方法
+        // response.end()
 
     } else {
         const filename = pathname === '/' ? 'index.html' : pathname.substring(1)
