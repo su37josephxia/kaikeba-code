@@ -1,0 +1,105 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+    <script src="https://cdn.bootcss.com/qs/6.6.0/qs.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+    <style>
+        .cube-btn {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div><a href="/swagger-ui.html">SwaggerUI</a></div>
+        <div><a href="https://www.easy-mock.com/project/5ce3669a733e8967c7b2e902">EasyMock地址</a></div>
+        <div>
+            <el-button @click="create">创建用户</el-button>
+            <el-button @click="list">用户列表</el-button>
+            <el-button @click="del">删除用户</el-button>
+        </div>
+        <div>
+            <el-button @click="login">登入</el-button>
+            <el-button @click="logout">退出登录</el-button>
+            <el-button @click="getUserList">用户列表</el-button>
+        </div>
+        <div>
+            <el-button onclick="document.getElementById('log').innerHTML = ''">Clear Log</el-button>
+        </div>
+        <h6 id="log"></h6>
+    </div>
+    <script>
+        // axios.defaults.baseURL = 'http://localhost:3000'
+        axios.defaults.withCredentials = true
+        axios.interceptors.request.use(
+            config => {
+                const token = window.localStorage.getItem("token");
+                if (token) {
+                    // 判断是否存在token，如果存在的话，则每个http header都加上token
+                    // Bearer是JWT的认证头部信息
+                    config.headers.common["Authorization"] = "Bearer " + token;
+                }
+                return config;
+            },
+            err => {
+                return Promise.reject(err);
+            }
+        )
+        axios.interceptors.response.use(
+            response => {
+                document.getElementById('log').append(JSON.stringify(response.data))
+                return response;
+            }
+        );
+        var app = new Vue({
+            el: '#app',
+            data: {
+                value: 'input',
+                token: {}
+            },
+            methods: {
+                async create() {
+                    await axios.post('/api/user', {
+                        mobile: '13611388415',
+                        password: '111111',
+                        realName: '老夏',
+                    })
+                },
+                async list() {
+                    const res = await axios.get('/api/user')
+                    this.list = res.data.data.list
+                },
+                async del() {
+                    console.log('list', this.list)
+                    this.list.map(v => {
+                        axios.delete(`/api/user/${v._id}`)
+                    })
+                },
+                async login() {
+                    const res = await axios.post('/auth/jwt/login', {
+                        mobile: '13611388415',
+                        password: '111111'
+                    })
+                    localStorage.setItem("token", res.data.data.token);
+                },
+                async logout() {
+                    const res = await axios.post('/auth/jwt/logout')
+                    localStorage.removeItem("token");
+                },
+                async getUserList() {
+                    await axios.get('/api/user')
+                }
+            },
+            mounted: function () {},
+        });
+    </script>
+</body>
+
+</html>
