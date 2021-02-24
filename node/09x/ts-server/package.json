@@ -1,0 +1,29 @@
+{
+  "name": "ts-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev ./src/index.ts -P tsconfig.json --no-cache",
+    "build": "tsc -P tsconfig.json && node ./dist/index.js",
+    "tslint": "tslint --fix -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/glob": "^7.1.3",
+    "glob": "^7.1.6",
+    "koa-body": "^4.2.0",
+    "mysql2": "^2.2.5",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^5.8.12",
+    "sequelize-typescript": "^0.6.11"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.31",
+    "ts-node-dev": "^1.1.1",
+    "tslint": "^6.1.3",
+    "typescript": "^4.2.2"
+  }
+}
