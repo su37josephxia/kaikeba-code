@@ -8,7 +8,7 @@ const conf = require('./conf')
 
 
 const crypto = require('crypto')
-const xmlParser = require('koa-xml-body') // bodyparser xml
+const xmlParser = require('koa-xml-body')
 app.use(xmlParser())
 
 const router = new Router()
@@ -29,11 +29,8 @@ router.get('/wechat', ctx => {
     console.log('wechat', query)
 
     // 将 token timestamp nonce 三个参数进行字典序排序并用sha1加密
-
-
     let str = [conf.token, timestamp, nonce].sort().join('');
     console.log('str', str)
-    // 签名
     let strSha1 = crypto.createHash('sha1').update(str).digest('hex');
 
     console.log(`自己加密后的字符串为：${strSha1}`);

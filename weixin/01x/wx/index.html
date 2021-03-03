@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <script src="https://cdn.bootcdn.net/ajax/libs/vue/2.6.11/vue.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/axios/0.20.0-0/axios.js"></script>
-    <script src="https://cdn.bootcdn.net/ajax/libs/qs/6.9.4/qs.js"></script>
+    <script src="https://unpkg.com/vue@2.1.10/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/cube-ui/lib/cube.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.6.0/qs.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/cube-ui/lib/cube.min.css">
     <style>
         /* .cube-btn {
             margin: 10px 0;
@@ -15,8 +18,8 @@
 
 <body>
     <div id="app">
-        <button @click='getToken'>getToken</button>
-        <button @click='getFollowers'>getFollowers</button>
+        <cube-button @click='getToken'>getToken</cube-button>
+        <cube-button @click='getFollower'>getFollower</cube-button>
     </div>
     <script>
         var app = new Vue({
@@ -27,11 +30,11 @@
 
             methods: {
                 async getToken() {
-                    const res = await axios.get('/getToken')
+                    const res = await axios.get('/getTokens')
                     console.log('res',res)
                 },
-                async getFollowers() {
-                    const res = await axios.get('/getFollowers')
+                async getFollower() {
+                    const res = await axios.get('/getFollower')
                     console.log('res',res)
                 }
             },

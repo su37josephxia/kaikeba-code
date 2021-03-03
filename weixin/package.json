@@ -7,7 +7,7 @@
     "doc": "doc"
   },
   "scripts": {
-    "sunny": "./bin/sunny clientid 0f57965c2f3e606b",
+    "sunny": "./bin/sunny clientid 34ca9e809640dafb",
     "ngrok": "./bin/ngrok http 3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
