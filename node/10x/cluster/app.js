@@ -1,17 +1,14 @@
+// 存在异常的server
 const http = require('http')
-const server = http.createServer((req,res) => {
-    // 模拟一个可能存在bug的程序
-    Math.random() > 0.8 ? aa() : 'ok'
-
-    res.end('Hello')
-
+const server = http.createServer((request, response) => {
+    Math.random() > 0.8 ? ac() : 'ok'
+    response.end('Hello')
 })
-
+// 如果主模块 node app.js 
+// 导出模块
 if(!module.parent) {
-    // 主模块 node app.js
-    server.listen(3000 ,() => {
-        console.log('server at 3000')
-    })
+
+    server.listen(3000)
 }else {
     module.exports = server
 }

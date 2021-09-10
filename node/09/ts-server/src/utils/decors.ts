@@ -66,6 +66,7 @@ const validateRule = paramPart => rule => {
             const errors = p.validate(rule, data)
             console.log('error',errors)
             if (errors) throw new Error(JSON.stringify(errors))
+            // 业务逻辑
             return oldValue.apply(null, arguments);
         }
         return descriptor;

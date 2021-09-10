@@ -11,17 +11,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@types/koa-bodyparser": "^4.3.3",
-    "@types/node": "^16.4.13",
-    "koa-body": "^4.2.0",
-    "koa-bodyparser": "^4.3.0",
-    "mysql2": "^2.3.0",
-    "reflect-metadata": "^0.1.13",
-    "sequelize": "^6.6.5",
-    "sequelize-typescript": "^2.1.0",
+  "devDependencies": {
+    "@types/node": "^16.7.13",
     "ts-node-dev": "^1.1.8",
     "tslint": "^6.1.3",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "koa-body": "^4.2.0"
   }
 }
