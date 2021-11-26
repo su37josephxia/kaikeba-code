@@ -2,16 +2,14 @@ const fs = require('fs')
 const path = require('path')
 const Router = require('koa-router')
 
-// 读取目录
 function load(dir, cb) {
-    // 获取绝对路径
     const url = path.resolve(__dirname, dir)
     const files = fs.readdirSync(url)
-    // 遍历
     files.forEach(filename => {
         // 去掉后缀
         filename = filename.replace('.js', '')
-        // 导入文件
+
+        // 加载文件
         const file = require(url + '/' + filename)
         cb(filename, file)
     })
@@ -19,19 +17,17 @@ function load(dir, cb) {
 
 function initRouter(app) {
     const router = new Router()
-
     load('routes', (filename, routes) => {
-        // index前缀处理
+        // 前缀计算
+        // index /
+        // user user
         const prefix = filename === 'index' ? '' : `/${filename}`
 
-        // 路由类型判断
         routes = typeof routes === 'function' ? routes(app) : routes
 
-        // 遍历添加路由
         Object.keys(routes).forEach(key => {
             const [method, path] = key.split(' ')
-            console.log(`正在映射地址 ${method.toLocaleUpperCase()} ${prefix}${path}`)
-            // 注册
+            console.log(`正在映射地址 ${method.toLocaleUpperCase()} ${prefix + path}`)
             // router[method](prefix + path, routes[key])
             router[method](prefix + path, async ctx => {
                 app.ctx = ctx
@@ -40,22 +36,21 @@ function initRouter(app) {
         })
     })
     return router
+
 }
 
 function initController(app) {
     const controllers = {}
-    // 读取目录
     load('controller', (filename, controller) => {
         controllers[filename] = controller(app)
     })
     return controllers
 }
 
-
-function initService() {
+function initService(app) {
     const services = {}
     load('service', (filename, service) => {
-        services[filename] = service
+        services[filename] = service(app)
     })
     return services
 }
@@ -83,6 +78,7 @@ function loadConfig(app) {
     })
 }
 
+
 const schedule = require('node-schedule')
 function initSchedule() {
     load('schedule', (filename, scheduleConfig) => {
@@ -90,4 +86,4 @@ function initSchedule() {
     })
 }
 
-module.exports = { initRouter, initController, initService, loadConfig,initSchedule }
+module.exports = { initRouter, initController, initService, loadConfig ,initSchedule}

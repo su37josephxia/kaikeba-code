@@ -9,8 +9,8 @@
   "dependencies": {
     "egg": "^2.15.1",
     "egg-scripts": "^2.11.0",
-    "egg-sequelize": "^5.2.0",
-    "mysql2": "^1.6.5"
+    "egg-sequelize": "^5.2.2",
+    "mysql2": "^2.1.0"
   },
   "devDependencies": {
     "autod": "^3.0.1",
