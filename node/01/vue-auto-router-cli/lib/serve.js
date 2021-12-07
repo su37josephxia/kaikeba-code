@@ -1,22 +1,27 @@
-const spawn = (...args) => {
-    const { spawn } = require('child_process');
-    const proc = spawn(...args)
-    proc.stdout.pipe(process.stdout)
-    proc.stderr.pipe(process.stderr)
-    return proc
-}
+import { spawn } from "child_process";
+import refresh from "./refresh.js";
+import watch from "watch";
 
-module.exports = async () => {
-    const watch = require('watch')
-    let process
-    let isRefresh = false
-    watch.watchTree('./src', async (f) => {
-        if (!isRefresh) {
-            isRefresh = true
-            process && process.kill()
-            await require('./refresh')()
-            setTimeout(() => { isRefresh = false }, 5000)
-            process = spawn('npm', ['run', 'serve'])
-        }
-    })
-}
+const AsyncSpawn = (...args) => {
+  const proc = spawn(...args);
+  proc.stdout.pipe(process.stdout);
+  proc.stderr.pipe(process.stderr);
+  return proc;
+};
+
+export default async () => {
+  let process;
+  let isRefresh = false;
+  watch.watchTree("./src", async (f) => {
+    console.log("change...", f);
+    if (!isRefresh) {
+      isRefresh = true;
+      process && process.kill();
+      await refresh();
+      setTimeout(() => {
+        isRefresh = false;
+      }, 5000);
+      process = spawn("npm", ["run", "serve"]);
+    }
+  });
+};

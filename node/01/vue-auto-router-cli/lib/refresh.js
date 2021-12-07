@@ -1,7 +1,8 @@
-const fs = require('fs')
-const handlebars = require('handlebars')
-const chalk = require('chalk')
-module.exports = async () => {
+import fs from 'fs'
+import handlebars from 'handlebars'
+import chalk from 'chalk'
+export default async () => {
+
     // 获取页面列表
     const list =
         fs.readdirSync('./src/views')
@@ -10,6 +11,11 @@ module.exports = async () => {
                 name: v.replace('.vue', '').toLowerCase(),
                 file: v
             }))
+
+            console.log('list',list)
+
+
+    // 生成路由定义
     compile({
         list
     }, './src/router.js', './template/router.js.hbs')
@@ -19,22 +25,18 @@ module.exports = async () => {
         list
     }, './src/App.vue', './template/App.vue.hbs')
 
-
-
     /**
-     * 
-     * @param {*} meta 
-     * @param {*} filePath 
-     * @param {*} templatePath 
+     * 编译模板文件
+     * @param meta 数据定义
+     * @param filePath 目标文件路径
+     * @param templatePath 模板文件路径
      */
     function compile(meta, filePath, templatePath) {
         if (fs.existsSync(templatePath)) {
-            const content = fs.readFileSync(templatePath).toString()
-            const reslut = handlebars.compile(content)(meta)
-            fs.writeFileSync(filePath, reslut)
+            const content = fs.readFileSync(templatePath).toString();
+            const result = handlebars.compile(content)(meta);
+            fs.writeFileSync(filePath, result);
         }
-        console.log(chalk.red(`🚀${filePath} 创建成功`))
+        console.log(chalk.green(`🚀${filePath} 创建成功`))
     }
-
-
 }
